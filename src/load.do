@@ -1,28 +1,29 @@
 clear all
 set more off
+set matsize 11000
 
 // read in CCI index
-import delimited using "data/cci-index.txt", clear
-generate time = qofd(date(date, "YMD")) + 1
+import delimited using "data/raw/cci-index.txt", clear
+generate quarter = qofd(date(date, "YMD")) + 1
 tempfile cci_dta
 save "`cci_dta'"
 
 // get 2009 nondurables and services
 foreach var in PCEND PCESV {
-  import delimited using "data/`var'_2009.csv", clear
+  import delimited using "data/raw/`var'_2009.csv", clear
 	local `var'_2009 = value[1] * 1e9
 }
 
 // read in series and save to tempfiles
 local series DFF EMRATIO PRS85006023 PCEND PCESV DPIC96 GDPC96 DNDGRA3Q086SBEA DSERRA3Q086SBEA DTB3
 foreach var in `series' {
-	import delimited using "data/`var'.csv", clear
+	import delimited using "data/raw/`var'.csv", clear
 	tempfile `var'_dta
 	save "``var'_dta'"
 }
 
 // merge tempfiles into single table
-import delimited using "data/CNP16OV.csv", clear
+import delimited using "data/raw/CNP16OV.csv", clear
 rename value CNP16OV
 foreach var in `series' {
   merge 1:1 date using "``var'_dta'"
@@ -31,13 +32,17 @@ foreach var in `series' {
 }
 
 // replace date with quarter
-generate time = qofd(date(date, "YMD"))
-format time %tq
-drop date
-tsset time
+generate newDate = date(date, "YMD")
+generate year    = year(newDate)
+generate month   = month(newDate)
+generate day     = day(newDate)
+generate quarter = qofd(newDate)
+drop newDate
+format quarter %tq
+tsset quarter
 
 // merge CCI index
-merge 1:1 time using "`cci_dta'"
+merge 1:1 quarter using "`cci_dta'"
 drop _merge
 
 // rename raw series
@@ -72,7 +77,7 @@ drop chain_nondurables chain_services
 generate real_consumption_pc = (real_nondurables + real_services) / pop
 generate real_disp_income_pc = real_disp_income / pop
 
-sort time
+sort quarter
 generate deflator            = (nondurables + services) / (real_nondurables + real_services)
 generate gross_inflation     = deflator[_n] / deflator[_n-1]
 
@@ -95,10 +100,14 @@ generate log_nonconsumption  = log(nonconsumption_pc)
 generate inflation           = log(gross_inflation) * 100
 
 // drop extra variables
+local timevars year month day quarter
 local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption effective_ffr cci
-keep  time real_consumption_pc `vars' observed_rate real_observed_rate
-order time real_consumption_pc `vars' observed_rate real_observed_rate
-label variable time                "Time period (quarter)"
+keep  `timevars' real_consumption_pc `vars' observed_rate real_observed_rate
+order `timevars' real_consumption_pc `vars' observed_rate real_observed_rate
+label variable year                "Year"
+label variable month               "Month"
+label variable day                 "Day"
+label variable quarter             "Quarter"
 label variable real_consumption_pc "Per-capital real consumption ($)"
 label variable log_consumption     "Log of per-capita real consumption"
 label variable inflation           "Inflation rate (% points)"
@@ -110,12 +119,38 @@ label variable observed_rate       "90-day T-bill secondary market rate (% point
 label variable real_observed_rate  "Real 90-day T-bill secondary market rate (% points)"
 label variable cci                 "Continuous Commodity Index"
 
+
+/*
 // plots
 foreach var in real_consumption inflation scaled_leisure_pct real_observed_rate {
 	tsline `var'
 	graph export "figs/`var'.png", replace
+}*/
+
+// estimate VAR, compute conditional moments
+var `vars', lags(1/4)
+matrix b = e(b)
+matrix input A0 = () // constant coefficients
+forvalues i = 1/7 {
+	matrix A0 = A0 \ b[1, 28*`i' + 1]
+}
+varstable, amat(A)
+matrix A1 = A[1..7, 1..28] // companion matrix
+matrix Sigma = e(Sigma) // covariance of error term
+
+mat2txt2 A0 using "data/ests/A0.csv", comma clean replace
+mat2txt2 A1 using "data/ests/A1.csv", comma clean replace
+mat2txt2 Sigma using "data/ests/Sigma.csv", comma clean replace
+
+// generate lags
+local lagvars
+forvalues i = 1/3 {
+	foreach var in `vars' {
+		generate `var'_`i' = `var'[_n-`i']
+		local lagvars = "`lagvars' `var'_`i'"
+	}
 }
 
-// vector autoregression
-// varsoc `vars'
-var `vars', lag(4)
+// export variables and lags to csv
+keep year month day `vars' `lagvars'
+export delimited "data/clean/aggregate-series.csv", replace
