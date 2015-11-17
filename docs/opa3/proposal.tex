@@ -1,0 +1,70 @@
+\documentclass{hw}
+
+\usepackage{bibentry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage[doublespacing]{setspace}
+
+\setlist{noitemsep}
+
+\begin{document}
+
+\title{Thesis Proposal: Heterogeneous Preferences and the \\ Euler Equation Implied Rate}
+\author{Pearl Li}
+\maketitle
+
+\section{Introduction}
+Perhaps the main criticism of modern macroeconomic models (in particular, DSGE models) is that the microfoundational assumptions on which they're based often don't actually fit the data very well. \cite{smith14} singles out the consumption Euler equation, which expresses intertemporal consumption choice in terms of (among other things) the interest rate. In its typical form: $$\frac{\beta E_t u'(c_{t+1})}{u'(c_t)} = \frac{1}{1+r_t}$$
+
+\cite{canzoneri07} computed the interest rate implied by the consumption Euler equation under several utility specifications. They found that their computed rates were actually negatively correlated with historical money market rates (a good approximation of the risk-free rate), and furthermore that the spread is correlated with the stance of monetary policy. These results are potentially extremely damaging to the validity of macroeconomic models which assume the Euler equation implied rate and the actual interest rate to be the same -- that is, nearly all macro models.
+
+In this paper, I'll first attempt to replicate the findings of Canzoneri et al., as well as \cite{collard11}, who repeat this exercise with utility non-separable in consumption and labor and in fact find the looked-for positive correlation with observed rates. Then I'll generalize their framework to include heterogeneous preferences, peeling back more layers of abstraction in search of whether the Euler equation can in fact be redeemed.
+
+\section{Framework}
+\subsection{Representative Agent Models}
+Canzoneri et al. begin with the standard CRRA (constant relative risk aversion) utility function $$u(c_t) = \frac{c_t^{1-\gamma}}{1-\gamma}$$
+Then they examine different models incorporating habit formation, in which current period utility depends also on last period's consumption. For example: $$u(c_t, c_{t-1}) = \frac{(c_t/c_{t-1}^\varphi)^{1-\gamma}}{1-\gamma}$$
+This introduces non-separability of utility over time. Collard and Dellas then introduce non-separability in consumption and leisure: $$u(c_t, c_{t-1}, l_t) = \frac{\bracket{(c_t/c_{t-1}^\varphi)^\nu l_t^{1-\nu}}^{1-\gamma}}{1-\gamma}$$
+Observe that we can reduce to either of the previous two models by setting $\nu = 1$ and/or $\varphi = 0$.
+
+\subsection{Heterogeneous Preferences}
+The main novel contribution of this paper will be the introduction of heterogeneous preferences into the Euler equation implied rates framework developed by Canzoneri et al. Heterogeneity in three dimensions is examined: heterogeneous optimizing behavior, heterogeneous time preferences, and heterogeneous risk aversion.
+
+The idea of heterogeneous optimizing behavior was first put forth by \cite{campbell89}, who proposed two categories of consumers: one group of forward-looking individuals who consume their permanent income in line with the usual theory, and another group of ``rule of thumb'' consumers who don't optimize and simply consume their current income in each period. The authors demonstrate that introducing this second group leads to conclusions that better fit aggregate consumption data.
+
+In fact, Canzoneri et al. have already considered this possibility as well. As a robustness check, they compute the implied rate under the assumption that the optimizing group represents half of aggregate disposable income and still find a negative correlation with the ex post money market rate.
+
+What they do not examine are heterogeneity in time preferences (discount rate $\beta$) and risk aversion (coefficient of relative risk aversion $\gamma$), which are both well-studied but non-standard features in the literature. For each, the intuition is obvious and the empirical support is considerable.
+
+\section{Data}
+Following Collard and Dellas, I'll use the following macroeconomic time series from FRED, as well as the Journal of Commerce industrial price index.
+\begin{itemize}
+\item \texttt{CNP16OV}: Civilian noninstitutional population over 16 (1948:1 to 2015:9)
+\item \texttt{PCESVC96}: Real personal consumption expenditures: services (1991:1 to 2015:4)
+\item \texttt{PCNDGC96}: Real personal consumption expenditures: nondurable goods (1991:1 to 2015:4)
+\item \texttt{PCESV}: Nominal personal consumption expenditures: services (1947:1 to 2015:4)
+\item \texttt{PCEND}: Nominal personal consumption expenditures: nondurable goods (1959:1 to 2015:8)
+\item \texttt{DPIC96}: Real personal disposable income (1947:1 to 2015:4)
+\item \texttt{GDPC96}: Real GDP (1947:1 to 2015:4)
+\item \texttt{PRS85006023}: Nonfarm business sector: average weekly hours (1947:1 to 2015:4)
+\item \texttt{LREM25TTUSM156S}: Employment rate: aged 25-54: all persons for the United States (1977:1 to 2015:3)
+\item \texttt{FEDFUNDS}: Effective federal funds rate (1954:7 to 2015:4)
+\item \texttt{DFEDTAR}: Federal funds target rate (1982:9 to 2008:12)
+\end{itemize}
+
+\section{Empirical Analysis}
+Following the lead of Canzoneri et al., I'll first estimate a vector autoregression of consumption, leisure, and the other time series. Then, following Collard and Dellas, I'll take $\beta = 0.9926, \gamma = 2, \varphi = 0.8$, and $\nu = 0.34$. Using these and the moments obtained from the VAR, I'll compute the implied rates with and without habit formation and consumption/leisure non-separability.
+
+There are several ways to incorporate heterogeneity of these parameters into the computation of the implied rates. The simplest is to assume the existence of high and low versions of each parameter. Then, we can compute the implied rate for each group and report ``the'' implied rate as a weighted average. (We can experiment with different weighting schemes, though weighting by consumption share seems most obvious.) Next, we can generalize high and low discounting and risk aversion to other distributions (both atomic and continuous) of these parameters and compute the final implied rate by integrating the group rates over the density. For example, \cite{cozzi14} estimates a lognormal distribution for $\gamma$ with mean 1.07 and standard deviation 0.87.
+
+Now, armed with the implied interest rates computed from a variety of ``treatments'' (habit formation, consumption/leisure non-separability, three types of heterogeneous preferences), I'll correlate each computed time series with money market rates as before. I'll also check to see if the residual is correlated with monetary policy, as measured by the fed funds rate, for example.
+
+Next, following the lead of \cite{gareis13}, I'll conduct a Monte Carlo experiment using the estimated \cite{smets07} DSGE model as a data generator. The Smets and Wouters model is a medium-scale DSGE model that incorporates both habit formation and non-separability in consumption and leisure, which has arguably become the standard for DSGE models since its publication. I'll generate a large number of ``draws'' of interest rate time series from Smets and Wouters with the goal of estimating the ``true'' distribution of the correlation between the implied and true interest rates.
+
+Finally, I'll compute impulse responses of consumption and the implied rate to a monetary shock using the estimated VAR under each preference specification. I'll compare the implied rate responses to the real fed fund rates response, as Canzoneri et al. do. I'll also look for evidence of a ``hump-shaped'' response in consumption, which is observed in empirical studies and shown by \cite{fuhrer00} to be consistent with habit formation.
+
+\bibliographystyle{econ}
+\nobibliography{proposal}
+
+\end{document}

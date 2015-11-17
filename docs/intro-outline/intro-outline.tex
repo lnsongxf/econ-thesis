@@ -1,0 +1,56 @@
+\documentclass{hw}
+
+\usepackage{bibentry}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage[doublespacing]{setspace}
+
+\begin{document}
+
+\title{Introduction \& Outline: The Euler Equation Implied Rate Under Heterogeneous Preferences}
+\author{Pearl Li}
+\maketitle
+
+\section{Introduction}
+Perhaps the main criticism of modern macroeconomic models (in particular, DSGE models) is that the microfoundational assumptions on which they're
+based often don't actually fit the data very well. \cite{smith14} singles out the consumption Euler equation, which expresses intertemporal consumption choice in terms of the real interest rate $r_t$. In its typical form: $$\beta \frac{E_t u'(c_{t+1})}{u'(c_t)} = \frac{1}{1+r_t}$$
+
+\cite{canzoneri07} computed the interest rate implied by the consumption Euler equation under several utility specifications. They found that their computed rates were actually negatively correlated with historical money market rates, and furthermore that the spread is correlated with the stance of monetary policy. These results are potentially extremely damaging to the validity of macroeconomic models which assume the Euler equation implied rate and the actual interest rate to be the same -- that is, nearly all macro models.
+
+In this paper, I'll first attempt to replicate the findings of Canzoneri et al., as well as \cite{collard11}, who repeat this exercise with utility non-separable in consumption and labor and in fact find the looked-for positive correlation with observed rates. This portion will include computing Euler equation implied rates, correlations with money market rates, and impulse response functions to a monetary shock. Also, following the lead of \cite{gareis13}, I'll conduct a Monte Carlo experiment using the estimated \cite{smets07} DSGE model as a data-generating process, with the goal of estimating the distribution of the correlation between the implied and ``observed'' interest rates.
+
+The main novel contribution of this paper will be the introduction of heterogeneous preferences into the Euler equation implied rates framework developed by Canzoneri et al. I'll examine heterogeneity in three dimensions: heterogeneous credit constraints, heterogeneous time preferences, and heterogeneous risk aversion. In each case, I'll compute the Euler equation implied rates in a representative agent model that attempts to account for aggregation of heterogeneous preferences, and then once again compare these to observed interest rates.
+
+
+
+\section{Outline}
+\begin{enumerate}[I.]
+\item Introduction
+\item Literature
+\item Data
+  \begin{enumerate}[A.]
+  \item Raw Data Sources: quarterly macroeconomic series from FRED, Continuous Commodity Index
+  \item Derived Series: definition of consumption, computation of real series from chained quantity indices, construction of consumption deflator, etc.
+  \item Summary Stats \& Plots
+  \end{enumerate}
+\item Euler Equation Implied Rates with Non-separability
+  \begin{enumerate}[A.]
+  \item Derivations: of Euler equation with and without habit formation, consumption/leisure non-separability
+  \item Computed Rates: implied rates from each utility function, correlation with observed rates
+  \item Robustness Checks: assuming different parameters, relaxing assumptions
+  \item Impulse Response: compute responses of consumption and implied rates to monetary policy shock
+  \item Monte Carlo Experiment: take draws from \cite{smets07} DSGE model, estimate distribution of correlations between implied and ``observed'' rates
+  \end{enumerate}
+\item Euler Equation Implied Rates with Preference Heterogeneity
+  \begin{enumerate}[A.]
+  \item Heterogeneous credit constraints: compute implied rates assuming that half of consumption is undertaken by credit-constrained consumers
+  \item Heterogeneous discount factor and risk aversion: compute implied rates accounting for aggregation as in \cite{hara09}
+  \end{enumerate}
+\item Conclusion
+\end{enumerate}
+
+\bibliographystyle{../refs/econ}
+\bibliography{../refs/refs}
+
+\end{document}

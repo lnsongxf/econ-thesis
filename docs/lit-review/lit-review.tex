@@ -1,0 +1,56 @@
+\documentclass{hw}
+
+\usepackage{bibentry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage[doublespacing]{setspace}
+
+\setlist{noitemsep}
+
+\begin{document}
+
+\title{Literature Review: The Euler Equation Implied Rate Under Heterogeneous Preferences}
+\author{Pearl Li}
+\maketitle
+
+\section{Representative Agent Utility Model}
+There is a substantial body of literature on how the standard constant relative risk aversion (CRRA) utility model fails to fit the data in various ways. \cite{parker99} points to several possible explanations for the rejection of the standard utility model by aggregate data. The representative agent might have nonseparable preferences, aggregation across heterogeneous households may produce bias, or actual asset markets may not be complete.
+
+\cite{fuhrer00} develops a utility model with habit formation in order to explain a key feature of aggregate data: the ``hump-shaped'' responses of consumption and inflation, which he demonstrates aren't seen in impulse response functions computed using the standard CRRA model. In addition to being intuitively reasonable, his addition of habit formation (equivalently, non-separability across time) allows the model to explain significant delays in response to monetary policy shocks.
+
+\cite{basu02} observe that assuming additive separability between consumption and labor\footnote{This is traditionally carried out implicitly when utility is made a function of consumption alone and labor only comes into the optimization as a source of income.} leads to estimations that the income effect of a permanent wage increase strongly overpower the substitution effect, hence reducing labor supply. This implication is not borne out in empirical comparisons of income versus hours worked. Using aggregate data, they show that the King-Plosser-Rebelo utility model (which is non-separable in consumption and leisure) leads to more realistic estimates of the intertemporal elasticity of substitution for consumption in the 1980s and 1990s, though not necessarily as well for earlier data.
+
+On the other hand, \cite{attanasio95} estimate a consumption model using household-level data that turns out to be consistent with the typical life cycle/permanent income hypothesis theory. Though they don't explicitly model labor supply, they introduce nonseparability in consumption and leisure by including labor supply variables as controls, as well as other demographic controls. Moreover, in the absence of individual data, economists typically estimate the mean of log consumption by taking the log of the mean. Attanasio and Weber demonstrate that this incorrect aggregation is a plausible explanation for why typical consumption models are rejected by aggregate data.
+
+\section{Euler Equation Implied Rates}
+One particular strand of the literature on this topic stems from \cite{canzoneri07}. They demonstrate the failure of the consumption Euler equation by computing the interest rates it implies and comparing them to observed historical money market rates. The two series turn out to be negatively correlated, a result which is robust to the addition of several different habit formation specifications to the standard CRRA utility model. Furthermore, they find that the spread between the Federal Funds rate and the Euler equation implied rate is correlated with the stance of monetary policy, an empirical finding which could invalidate modern macroeconomic models which equate the two rates. Finally, they compute impulse response functions of the Euler implied rate to a monetary shock, which move nearly in a mirror image to the money market rate.
+
+Perhaps fortunately for macroeconomists, this paper was followed by \cite{collard11}, who undertake the same exercise but impose the additional restriction of non-separability in consumption and leisure to the utility function, citing the work of \cite{basu02} discussed earlier. Collard and Dellas find that the enforcement of this non-separability makes the correlation between observed and Euler equation implied rates strongly positive and the difference between their volatilities smaller. Though the actual path of the Euler implied rate still differs substantially from observed rates, these results suggest that the consumption Euler equation may be salvageable.
+
+In a similar vein, \cite{gareis13} compute the Euler equation implied rate from the \cite{smets07} DSGE model, which happens to incorporate both habit formation and non-nonseparability in consumption and leisure. They too find a positive correlation between actual and implied real interest rates. However, their Euler equation implied rates are much more volatile than (about five times the standard deviation of) the actual rates. Gareis and Mayer also estimate the true distribution of correlations by using the Smets and Wouters model as a data-generating process for a Monte Carlo experiment. They simulate 1000 time series of consumption, inflation, hours worked, and interest rates and correlate the ``actual'' and Euler implied rates. The resulting distribution of correlations is centered around zero (though the median is slightly positive), in contrast to their non-simulated findings.
+
+\section{Preference Heterogeneity}
+Perhaps the most obvious argument against the representative agent model is that in practice, the real population of consumers is not at all homogeneous. Another subset of the literature shows how introducing heterogeneity to the representative agent model can reconcile theory with ostensible empirical irregularities.
+
+\cite{campbell89} examine heterogeneity in optimizing behavior. Specifically, on top of the standard optimizing agent who consumes his permanent income, they posit an additional class of ``rule of thumb'' consumers who do not optimize and consume exactly their income each period. They interpret the coefficient of disposable income on consumption as the fraction of such current-income consumers, which is estimated to be about or above 50\%, depending on the specification of controls. They conclude that their model with rule of thumb consumers included better fits some stylized facts found in aggregate data, including consumption's response to income but not real interest rate changes, as well as the ``excess smoothness'' of consumption compared to what is predicted by the permanent income hypothesis model.
+
+A related approach to heterogeneity is taken by \cite{guvenen06}, who seeks to reconcile macroeconomic assumptions of the elasticity of intertemporal substitution (near 1) with empirical estimates (near 0). He proposes that this inconsistency is a consequence of dissimilarity of high-elasticity stockholders and low-elasticity non-stockholders. Despite making up a relatively small fraction of the overall population, stockholders hold most of the wealth, so analysis of savings and investment typically reflect their dynamics. On the other hand, consumption is much more evenly distributed, so aggregate consumption data reflect the low elasticity of the majority --- that is, the poor. 
+
+\cite{cozzi14} attempts to estimate a lognormal distribution of the coefficient of relative risk aversion (which equals the elasticity of intertemporal substitution in the CRRA model) from household-level panel data. He shows that introducing preference heterogeneity significantly alters typical measures of wealth inequality such as the coefficient of variation and the Gini index. He finds that average consumption increases in risk aversion (which increases accumulated savings and hence consumption smoothing).
+
+\cite{andolfatto98} also look at inequality and how it's affected by redistribution policies under the similar assumption of heterogeneous time preferences. They briefly survey a wide swath of literature on estimating heterogeneous discount rates, which typically range between 10 and 30 percent. Similarly to EIS and risk aversion, households' discounting tends to be associated with their wealth. Andolfatto and Redekop estimate discount rates, hours worked, hourly wages for income quintiles. Their model seems to explain heterogeneity across many economic dimensions (including hours worked, earned income, and consumption) as a consequence of heterogeneous discounting. Moreover, it replicates important features of the data --- for example, the higher hours worked by better-educated individuals (who hence face a greater opportunity cost of not working).
+
+\section{Aggregation}
+Given the body of literature on how preferences are heterogeneous along many dimensions, a key question that remains is \textit{whether} they can be aggregated consistently into a single representative agent, let alone how to do so. \cite{stoker93} surveys a range of empirical techniques used in accounting for compositional heterogeneity in empirical modeling of aggregate data. He discusses when and where individual behavior is recoverable from aggregate data (for example, under which cases it makes sense to interpret the EIS estimated from aggregate data as individual EIS).
+
+\cite{constantinides82} proves that in a setting with complete markets, heterogeneous consumers can be replaced by a central planner who maximizes a weighted sum of individual utilities. This central planner can in turn be replaced by a composite consumer who maximizes a utility function of aggregate consumption --- all while retaining the same equilibrium prices, production, and aggregate consumption as in the original individuals' problem. He then derives the capital asset pricing model in the composite consumer setting.
+
+\cite{gollier05} examine a model where individuals maximize time-separable lifetime utility and have heterogeneous constant discount rates. They also assume the existence of an exchange economy allowing a Pareto-efficient allocation of consumption within the group. They show that, under DARA preferences, the behavior of the group can be represented by the optimizing behavior of a representative agent with a discount rate decreasing with time, whose utility is also time-additive.
+
+\cite{jouini07} present a method to aggregate heterogeneous subjective beliefs into a single consensus belief in a stochastic intertemporal framework. Like Gollier and Zeckhauser, they find that the representative agent has the same utility functional form as the individuals, with a non-constant discount factor proportional to the dispersion of beliefs. They prove that the consensus probability belief is a risk tolerance-weighted average of individual beliefs. They also show that introducing a stochastic discount factor in a homogeneous beliefs setting causes agents' behavior to mimic those in a setting with heterogeneous beliefs.
+
+\bibliographystyle{../refs/econ}
+\bibliography{../refs/refs}
+
+\end{document}

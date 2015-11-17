@@ -1,0 +1,143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  This bbl file is created by econ.bst ver.2.1
+%  The latest econ.bst is available at
+%  <http://shirotakeda.org/home/tex/econ-bst.html>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Definition of \bysame
+\ifx\undefined\bysame
+\newcommand{\bysame}{\hskip.3em \leavevmode\rule[.5ex]{3em}{.3pt}\hskip0.5em}
+\fi
+
+\begin{thebibliography}{xxx}
+
+\harvarditem[Antras]{Antras}{2004}{antras04}
+Antras, Pol (2004) ``Is the U.S. Aggregate Production Function Cobb-Douglas?
+  New Estimates of the Elasticity of Substitution,'' {\it B.E. Journal of
+  Macroeconomics}.
+
+\harvarditem[Attanasio and Low]{Attanasio and Low}{2004}{attanasio04}
+Attanasio, Orazio~P. and Hamish Low (2004) ``Estimating Euler Equations,'' {\it
+  Review of Economic Dynamics}.
+
+\harvarditem[Attanasio and Weber]{Attanasio and Weber}{1995}{attanasio95}
+Attanasio, Orazio~P. and Guglielmo Weber (1995) ``Is Consumption Growth
+  Consistent with Intertemporal Optimization? Evidence from the Consumer
+  Expenditure Survey,'' {\it Journal of Political Economy}.
+
+\harvarditem[Browning and Lusardi]{Browning and Lusardi}{1996}{browning96}
+Browning, Martin and Annamaria Lusardi (1996) ``Household Saving: Micro
+  Theories and Micro Facts,'' {\it Journal of Economic Literature}.
+
+\harvarditem[Campbell and Mankiw]{Campbell and Mankiw}{1989}{campbell89}
+Campbell, John~Y. and N.~Gregory Mankiw (1989) ``Consumption, Income, and
+  Interest Rates: Reinterpreting the Time Series Evidence,'' {\it NBER
+  Macroeconomics Annual}.
+
+\harvarditem[Canzoneri et~al.]{Canzoneri, Cumby and Diba}{2007}{canzoneri07}
+Canzoneri, Matthew~B., Robert~E. Cumby, and Behzad~T. Diba (2007) ``Euler
+  Equations and Money Market Interest Rates: A Challenge for Monetary Policy
+  Models,'' {\it Journal of Monetary Economics}.
+
+\harvarditem[Carroll]{Carroll}{2001}{carroll01}
+Carroll, Christopher~D. (2001) ``Death to the Log-Linearized Consumption Euler
+  Equation! (And Very Poor Health to the Second-Order Approximation),'' {\it
+  Advances in Macroeconomics}.
+
+\harvarditem[Colander]{Colander}{2006}{colander06}
+Colander, David ed.  (2006)  {\it Post Walrasian Macroeconomics: Beyond the
+  Dynamic Stochastic General Equilibrium Model}: Cambridge University Press.
+
+\harvarditem[Colander et~al.]{Colander, Howitt, Kirman, Leijonhufvud and
+  Mehrling}{2008}{colander08}
+Colander, David, Peter Howitt, Alan Kirman, Axel Leijonhufvud, and Perry
+  Mehrling (2008) ``Beyond DSGE Models: Toward an Empirically Based
+  Macroeconomics,'' {\it American Economic Review}.
+
+\harvarditem[Collard and Dellas]{Collard and Dellas}{2011}{collard11}
+Collard, Fabrice and Harris Dellas (2011) ``Euler equations and monetary
+  policy,'' {\it Economics Letters}.
+
+\harvarditem[Del~Negro and Schorfheide]{Del~Negro and
+  Schorfheide}{2008}{delnegro08}
+Del~Negro, Marco and Frank Schorfheide (2008) ``Forming priors for DSGE models
+  (and how it affects the assessment of nominal rigidities),'' {\it Journal of
+  Monetary Economics}.
+
+\harvarditem[Del~Negro et~al.]{Del~Negro, Schorfheide, Smets and
+  Wouters}{2007}{delnegro07}
+Del~Negro, Marco, Frank Schorfheide, Frank Smets, and Rafael Wouters (2007)
+  ``On the Fit of New Keynesian Models,'' {\it Journal of Business and Economic
+  Statistics}.
+
+\harvarditem[Fernandez-Villaverde]{Fernandez-Villaverde}{2010}{fernandez10}
+Fernandez-Villaverde, Jesus (2010) ``The Econometrics of DSGE Models,'' {\it
+  International Review of Economics}.
+
+\harvarditem[Garcia~Duarte and Tadeu~Lima]{Garcia~Duarte and
+  Tadeu~Lima}{2012}{garcia12}
+Garcia~Duarte, Pedro and Gilberto Tadeu~Lima (2012)  {\it Microfoundations
+  Reconsidered: The Relationship of Micro and Macroeconomics in Historical
+  Perspective}: Edward Elgar.
+
+\harvarditem[Gareis and Mayer]{Gareis and Mayer}{2013}{gareis13}
+Gareis, Johannes and Eric Mayer (2013) ``Euler equations and money market
+  interest rates: The role of monetary policy and risk premium shocks,'' {\it
+  Economics Letters}.
+
+\harvarditem[Hall]{Hall}{1978}{hall78}
+Hall, Robert~E. (1978) ``Stochastic Implications of the Life Cycle-Permanent
+  Income Hypothesis: Theory and Evidence,'' {\it Journal of Political Economy}.
+
+\harvarditem[Kirman]{Kirman}{1992}{kirman92}
+Kirman, Alan~P. (1992) ``Whom or What Does the Representative Individual
+  Represent?'' {\it Journal of Economic Perspectives}.
+
+\harvarditem[LeBaron and Tesfatsion]{LeBaron and Tesfatsion}{2008}{lebaron08}
+LeBaron, Blake and Leigh Tesfatsion (2008) ``Modeling Macroeconomies as
+  Open-Ended Dynamic Systems of Interacting Agents,'' {\it American Economic
+  Review}.
+
+\harvarditem[Ludvigson and Paxson]{Ludvigson and Paxson}{2001}{ludvigson01}
+Ludvigson, Sydney and Christina~H. Paxson (2001) ``Approximation Bias in
+  Linearized Euler Equations,'' {\it Review of Economics and Statistics}.
+
+\harvarditem[Morris]{Morris}{2012}{morris12}
+Morris, Stephen~D. (2012) ``Analytical Solutions of DSGE Models and
+  Instrumental Variables.''
+
+\harvarditem[Rotemberg]{Rotemberg}{1987}{rotemberg87}
+Rotemberg, Julio~J. (1987) ``The New Keynesian Microfoundations,'' {\it NBER
+  Macroeconomics Annual}.
+
+\harvarditem[Schorfheide and Del~Negro]{Schorfheide and
+  Del~Negro}{2013}{schorfheide13}
+Schorfheide, Frank and Marco Del~Negro (2013) ``Bayesian Macroeconometrics,''
+  in  {\it The Oxford Handbook of Bayesian Econometrics}: Oxford University
+  Press, Chap.~7.
+
+\harvarditem[Smets and Wouters]{Smets and Wouters}{2007}{smets07}
+Smets, Frank and Rafael Wouters (2007) ``Shocks and Frictions in US Business
+  Cycles: A Bayesian DSGE Approach,'' {\it American Economic Review}.
+
+\harvarditem[Smith]{Smith}{2014}{smith14}
+Smith, Noah (2014) ``The equation at the core of modern macro,''
+  \url{http://noahpinionblog.blogspot.com/2014/01/the-equation-at-core-of-modern-macro.html}.
+
+\harvarditem[Weintraub]{Weintraub}{1977}{weintraub77}
+Weintraub, E.~Roy (1977) ``The Microfoundations of Macroeconomics: A Critical
+  Survey,'' {\it Journal of Economic Literature}.
+
+\harvarditem[Weintraub]{Weintraub}{1979}{weintraub79}
+\bysame  (1979)  {\it Microfoundations: The Compatibility of Microeconomics and
+  Macroeconomics}: Cambridge University Press.
+
+\harvarditem[Whited]{Whited}{1998}{whited98}
+Whited, Toni~M. (1998) ``Why Do Investment Euler Equations Fail?'' {\it Journal
+  of Business and Economic Statistics}.
+
+\harvarditem[Woodford]{Woodford}{2001}{woodford01}
+Woodford, Michael (2001) ``The Taylor Rule and Optimal Monetary Policy,'' {\it
+  American Economic Review}.
+
+\end{thebibliography}
