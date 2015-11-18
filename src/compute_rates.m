@@ -37,6 +37,7 @@ alpha = 2; % coefficient of relative risk aversion
 % compute implied rates
 % TODO: why is the implied nominal rate so high???
 I_t_inv = beta * exp(-alpha*(Et_c_tp1 - c_t) - Et_pi_tp1 + alpha^2/2*Vt_c_tp1 + 1/2*Vt_pi_tp1 + alpha*Ct_c_pi_tp1);
+% I_t_inv = beta * exp(-alpha*(Et_c_tp1 - c_t) - Et_pi_tp1);
 I_t = 1 ./ I_t_inv; % quarterly gross nominal rate
 R_t_inv = beta * exp(-alpha*(Et_c_tp1 - c_t) + alpha^2/2*Vt_c_tp1);
 R_t = 1 ./ R_t_inv; % quarterly gross real rate
@@ -66,3 +67,9 @@ xbar = mean(x);
 ybar = mean(y);
 xsig = std(x);
 ysig = std(y);
+
+plot(date(collard), log(I_t_ann(collard)) .* 100, date(collard), log(ffr_t_ann(collard)) .* 100);
+title('Annualized Nominal Interest Rate');
+legend('Implied', 'FFR');
+xlim([datenum(1960, 1, 1) datenum(2006, 10, 1)]);
+print('figs/crra-nominal.png', '-dpng');
