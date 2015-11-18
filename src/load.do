@@ -47,7 +47,7 @@ drop _merge
 
 // rename raw series
 rename CNP16OV         pop
-rename DFF             effective_ffr
+rename DFF             ffr
 rename EMRATIO         emp_rate
 rename PRS85006023     hours_worked
 rename PCEND           nondurables
@@ -67,6 +67,8 @@ foreach var in emp_rate chain_nondurables chain_services {
 foreach var in nondurables services real_disp_income real_gdp {
   replace `var' = `var' * 1e9
 }
+replace ffr                  = (1 + ffr/100)^0.25
+replace observed_rate        = 1 + observed_rate/100
 
 // consumption in chained 2009 dollars = nominal consumption * chain quantity index
 generate real_nondurables    = chain_nondurables * `PCEND_2009'
@@ -91,43 +93,41 @@ egen mean_hours_emp_rate     = mean(hours_emp_rate)
 generate scaled_labor_pct    = (1/3) * hours_emp_rate / mean_hours_emp_rate
 generate scaled_leisure_pct  = 1 - scaled_labor_pct
 
-generate real_observed_rate  = (((1 + observed_rate/100) / gross_inflation) - 1) * 100
-
 // generate log variables
 generate log_consumption     = log(real_consumption_pc)
 generate log_rdi             = log(real_disp_income_pc)
 generate log_nonconsumption  = log(nonconsumption_pc)
-generate inflation           = log(gross_inflation) * 100
+generate inflation           = log(gross_inflation)
 
 // drop extra variables
 local timevars year month day quarter
-local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption effective_ffr cci
-keep  `timevars' real_consumption_pc `vars' observed_rate real_observed_rate
-order `timevars' real_consumption_pc `vars' observed_rate real_observed_rate
+local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption ffr cci
+keep  `timevars' real_consumption_pc `vars' observed_rate
+order `timevars' real_consumption_pc `vars' observed_rate
 label variable year                "Year"
 label variable month               "Month"
 label variable day                 "Day"
 label variable quarter             "Quarter"
-label variable real_consumption_pc "Per-capital real consumption ($)"
+label variable real_consumption_pc "Per-capita real consumption ($)"
 label variable log_consumption     "Log of per-capita real consumption"
-label variable inflation           "Inflation rate (% points)"
+label variable inflation           "Inflation rate (net, quarterly)"
 label variable scaled_leisure_pct  "Weekly leisure %, scaled to mean 2/3"
 label variable log_rdi             "Log of real disposable income"
 label variable log_nonconsumption  "Log of real output less consumption"
-label variable effective_ffr       "Effective fed funds rate (% pts)"
-label variable observed_rate       "90-day T-bill secondary market rate (% points)"
-label variable real_observed_rate  "Real 90-day T-bill secondary market rate (% points)"
+label variable ffr					       "Effective fed funds rate (gross, quarterly)"
+label variable observed_rate       "90-day T-bill secondary market rate (gross)"
 label variable cci                 "Continuous Commodity Index"
-
 
 /*
 // plots
-foreach var in real_consumption inflation scaled_leisure_pct real_observed_rate {
+foreach var in real_consumption_pc inflation scaled_leisure_pct {
 	tsline `var'
 	graph export "figs/`var'.png", replace
 }*/
 
 // estimate VAR, compute conditional moments
+wntstmvq `vars'
+varsoc `vars'
 var `vars', lags(1/4)
 matrix b = e(b)
 matrix input A0 = () // constant coefficients
