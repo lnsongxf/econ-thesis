@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  This bbl file is created by econ.bst ver.2.1
+%  The latest econ.bst is available at
+%  <http://shirotakeda.org/home/tex/econ-bst.html>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Definition of \bysame
+\ifx\undefined\bysame
+\newcommand{\bysame}{\hskip.3em \leavevmode\rule[.5ex]{3em}{.3pt}\hskip0.5em}
+\fi
+
+\begin{thebibliography}{xxx}
+
+\harvarditem[Canzoneri et~al.]{Canzoneri, Cumby and Diba}{2007}{canzoneri07}
+Canzoneri, Matthew~B., Robert~E. Cumby, and Behzad~T. Diba (2007)
+  ``\href{http://faculty.georgetown.edu/cumbyr/papers/Euler%20Equations%20JME%20Version.pdf}{Euler
+  Equations and Money Market Interest Rates: A Challenge for Monetary Policy
+  Models},'' {\it Journal of Monetary Economics}.
+
+\harvarditem[Collard and Dellas]{Collard and Dellas}{2012}{collard11}
+Collard, Fabrice and Harris Dellas (2012)
+  ``\href{https://ideas.repec.org/a/eee/ecolet/v114y2012i1p1-5.html}{Euler
+  equations and monetary policy},'' {\it Economics Letters}.
+
+\harvarditem[Fuhrer]{Fuhrer}{2000}{fuhrer00}
+Fuhrer, Jeffrey~C. (2000)
+  ``\href{https://ideas.repec.org/a/aea/aecrev/v90y2000i3p367-390.html}{Habit
+  Formation in Consumption and Its Implications for Monetary Policy Models},''
+  {\it American Economic Review}.
+
+\harvarditem[Hara]{Hara}{2009}{hara09}
+Hara, Chiaki (2009) ``Heterogeneous Impatience in a Continuous-Time Model,''
+  \url{http://www.kier.kyoto-u.ac.jp/DP/DP665.pdf}.
+
+\harvarditem[Tesfatsion]{Tesfatsion}{2006}{tesfatsion05}
+Tesfatsion, Leigh (2006)
+  ``\href{http://www2.econ.iastate.edu/tesfatsi/ACEMacro.EconReportLT.pdf}{Agent-Based
+  Computational Modeling and Macroeconomics},'' in  {\it Post Walrasian
+  Macroeconomics: Beyond the Dynamic Stochastic General Equilibrium Model}:
+  Cambridge University Press.
+
+\end{thebibliography}
