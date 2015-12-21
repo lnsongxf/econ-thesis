@@ -2,6 +2,11 @@ clear all
 set more off
 set matsize 11000
 
+// settings
+local plots     = 0
+local ljung_box = 0
+local varsoc    = 0
+
 // read in CCI index
 import delimited using "data/raw/cci-index.txt", clear
 generate quarter = qofd(date(date, "YMD")) + 1
@@ -67,8 +72,8 @@ foreach var in emp_rate chain_nondurables chain_services {
 foreach var in nondurables services real_disp_income real_gdp {
   replace `var' = `var' * 1e9
 }
-replace ffr                  = (1 + ffr/100)^0.25
-replace observed_rate        = 1 + observed_rate/100
+replace ffr                  = log((1 + ffr/100)^0.25)
+replace observed_rate        = log(1 + observed_rate/100)
 
 // consumption in chained 2009 dollars = nominal consumption * chain quantity index
 generate real_nondurables    = chain_nondurables * `PCEND_2009'
@@ -114,25 +119,34 @@ label variable inflation           "Inflation rate (net, quarterly)"
 label variable scaled_leisure_pct  "Weekly leisure %, scaled to mean 2/3"
 label variable log_rdi             "Log of real disposable income"
 label variable log_nonconsumption  "Log of real output less consumption"
-label variable ffr					       "Effective fed funds rate (gross, quarterly)"
-label variable observed_rate       "90-day T-bill secondary market rate (gross)"
+label variable ffr					       "Effective fed funds rate (net, quarterly)"
+label variable observed_rate       "90-day T-bill secondary market rate (net)"
 label variable cci                 "Continuous Commodity Index"
 
-/*
 // plots
-foreach var in real_consumption_pc inflation scaled_leisure_pct {
-	tsline `var'
-	graph export "figs/`var'.png", replace
-}*/
+if `plots' == 1 {
+	foreach var in real_consumption_pc inflation scaled_leisure_pct {
+		tsline `var'
+		graph export "figs/`var'.png", replace
+	}
+}
 
-// estimate VAR, compute conditional moments
-wntstmvq `vars'
-varsoc `vars'
+// multivariate Ljung-Box statistic
+if `ljung_box' == 1 {
+	wntstmvq `vars'
+}
+
+// lag-order selection statistics
+if `varsoc' == 1 {
+	varsoc `vars'
+}
+
+// estimate VAR
 var `vars', lags(1/4)
 matrix b = e(b)
 matrix input A0 = () // constant coefficients
 forvalues i = 1/7 {
-	matrix A0 = A0 \ b[1, 28*`i' + 1]
+	matrix A0 = A0 \ b[1, 29*`i']
 }
 varstable, amat(A)
 matrix A1 = A[1..7, 1..28] // companion matrix
