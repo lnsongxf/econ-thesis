@@ -3,12 +3,14 @@ set more off
 set matsize 11000
 
 // settings
-local plots     = 0
-local ljung_box = 0
-local varsoc    = 0
+local plots      = 0
+local ljung_box  = 0
+local varsoc     = 0
+local reestimate = 0
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
+local kp = 28
 
 // read in CCI index
 import delimited using "data/raw/cci-index.txt", clear
@@ -144,24 +146,6 @@ if `varsoc' == 1 {
 	varsoc `vars'
 }
 
-// estimate VAR
-var `vars', lags(1/4)
-matrix b = e(b)
-matrix input A0_old = () // constant coefficients
-forvalues i = 1/`k' {
-	matrix A0_old = A0_old \ b[1, 29*`i']
-}
-matrix input A0 = ()
-forvalues i = 1/`p' {
-	matrix A0 = A0 \ A0_old
-}
-varstable, amat(A1) // companion matrix
-matrix Sigma = e(Sigma) // covariance of error term
-
-mat2txt2 A0 using "data/ests/A0.csv", comma clean replace
-mat2txt2 A1 using "data/ests/A1.csv", comma clean replace
-mat2txt2 Sigma using "data/ests/Sigma.csv", comma clean replace
-
 // generate lags
 local lagvars
 local pm1 = `p' - 1
@@ -172,6 +156,22 @@ forvalues i = 1/`pm1' {
 	}
 }
 
-// export variables and lags to csv
-keep year month day `vars' `lagvars'
-export delimited "data/clean/aggregate-series.csv", replace
+// estimate VAR
+if `reestimate' == 1 {
+	var `vars' `lagvars', lags(1)
+	matrix b = e(b)
+	matrix input A0 = () // constant coefficients
+	forvalues i = 1/`kp' {
+		matrix A0 = A0 \ b[1, 29*`i']
+	}
+	varstable, amat(A1) // companion matrix
+	matrix Sigma = e(Sigma) // covariance of error term
+
+	mat2txt2 A0 using "data/ests/A0.csv", comma clean replace
+	mat2txt2 A1 using "data/ests/A1.csv", comma clean replace
+	mat2txt2 Sigma using "data/ests/Sigma.csv", comma clean replace
+
+	// export variables and lags to csv
+	keep year month day `vars' `lagvars'
+	export delimited "data/clean/aggregate-series.csv", replace
+}
