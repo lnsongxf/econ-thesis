@@ -7,6 +7,9 @@ local plots     = 0
 local ljung_box = 0
 local varsoc    = 0
 
+local p = 4 // number of lags
+local k = 7 // number of covariates
+
 // read in CCI index
 import delimited using "data/raw/cci-index.txt", clear
 generate quarter = qofd(date(date, "YMD")) + 1
@@ -144,12 +147,15 @@ if `varsoc' == 1 {
 // estimate VAR
 var `vars', lags(1/4)
 matrix b = e(b)
-matrix input A0 = () // constant coefficients
-forvalues i = 1/7 {
-	matrix A0 = A0 \ b[1, 29*`i']
+matrix input A0_old = () // constant coefficients
+forvalues i = 1/`k' {
+	matrix A0_old = A0_old \ b[1, 29*`i']
 }
-varstable, amat(A)
-matrix A1 = A[1..7, 1..28] // companion matrix
+matrix input A0 = ()
+forvalues i = 1/`p' {
+	matrix A0 = A0 \ A0_old
+}
+varstable, amat(A1) // companion matrix
 matrix Sigma = e(Sigma) // covariance of error term
 
 mat2txt2 A0 using "data/ests/A0.csv", comma clean replace
@@ -158,7 +164,8 @@ mat2txt2 Sigma using "data/ests/Sigma.csv", comma clean replace
 
 // generate lags
 local lagvars
-forvalues i = 1/3 {
+local pm1 = `p' - 1
+forvalues i = 1/`pm1' {
 	foreach var in `vars' {
 		generate `var'_`i' = `var'[_n-`i']
 		local lagvars = "`lagvars' `var'_`i'"

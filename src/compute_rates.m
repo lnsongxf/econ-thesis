@@ -8,35 +8,45 @@ k = kp/p; % number of covariates
 
 c_t = Y_t(1, :); % log consumption
 pi_t = Y_t(2, :); % quarterly net inflation
+l_t = Y_t(3, :); % leisure
 ffr_t = Y_t(6, :); % quarterly net nominal FFR
+c_tm1 = Y_t(8, :);
 
 ffr_real_t = ffr_t - pi_t; % quarterly net real FFR
-
 FFR_t = exp(ffr_t); % quarterly gross nominal FFR
 FFR_real_t = exp(ffr_real_t); % quarterly gross real FFR
 
 % read in VAR estimates
-A0 = csvread('data/ests/A0.csv', 0, 0, [0 0 6 0]);
-A1 = csvread('data/ests/A1.csv', 0, 0, [0 0 6 27]);
+A0 = csvread('data/ests/A0.csv', 0, 0, [0 0 27 0]);
+A1 = csvread('data/ests/A1.csv', 0, 0, [0 0 27 27]);
 Sigma = csvread('data/ests/Sigma.csv', 0, 0, [0 0 6 6]);
-assert(all(size(A0) == [k, 1]));
-assert(all(size(A1) == [k, k*p]));
+assert(all(size(A0) == [kp, 1]));
+assert(all(size(A1) == [kp, kp]));
 assert(all(size(Sigma) == [k, k]));
 
 % compute conditional moments
 A0s = repmat(A0, 1, T);
-Et_y_tp1 = A0s + A1*Y_t; % conditional expectation
-Vt_y_tp1 = Sigma; % conditional variance
+Et_Y_tp1 = A0s + A1*Y_t; % conditional expectation
+Et_Y_tp2 = A0s + A1*A0s + A1^2*Y_t;
+Vt_Y_tp1 = Sigma; % conditional variance
 
-Et_c_tp1 = Et_y_tp1(1, :); % expected log consumption
-Et_pi_tp1 = Et_y_tp1(2, :); % expected inflation
-Vt_c_tp1 = Vt_y_tp1(1, 1); % conditional variance
-Vt_pi_tp1 = Vt_y_tp1(2, 2);
-Ct_c_pi_tp1 = Vt_y_tp1(1, 2); % conditional covariance
+Et_c_tp1 = Et_Y_tp1(1, :); % expected log consumption
+Et_pi_tp1 = Et_Y_tp1(2, :); % expected inflation
+Et_l_tp1 = Et_Y_tp1(3, :); % expected leisure
+
+Vt_c_tp1 = Vt_Y_tp1(1, 1); % conditional variance
+Vt_pi_tp1 = Vt_Y_tp1(2, 2);
+Vt_l_tp1 = Vt_Y_tp1(3, 3);
+
+Ct_c_pi_tp1 = Vt_Y_tp1(1, 2); % conditional covariance
+Ct_c_l_tp1 = Vt_Y_tp1(1, 3);
+Ct_pi_l_tp1 = Vt_Y_tp1(2, 3);
 
 % set parameters
 beta = 0.9926; % discount rate
 alpha = 2; % coefficient of relative risk aversion
+nu = 1; % weight of consumption (vs leisure)
+phi = 0; % habit formation parameter
 
 % compute implied rates
 I_t_inv = beta * exp(-alpha*(Et_c_tp1 - c_t) - Et_pi_tp1 + alpha^2/2*Vt_c_tp1 + 1/2*Vt_pi_tp1 + alpha*Ct_c_pi_tp1);
