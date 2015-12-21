@@ -1,4 +1,4 @@
-% read in data
+%% READ DATA
 data = csvread('data/clean/aggregate-series.csv', 4, 0);
 date = transpose(datetime(data(:, 1:3)));
 Y_t = transpose(data(:, 4:31)); % [ y_t, ..., y_{t-3} ]'
@@ -29,50 +29,54 @@ A0(abs(A0) < 1e-9) = [0];
 A1(abs(A1) < 1e-9) = [0];
 Sigma(abs(Sigma) < 1e-9) = [0];
 
-% compute conditional moments
+%% COMPUTE CONDITIONAL MOMENTS
 A0s = repmat(A0, 1, T);
 A1t = transpose(A1);
 
-Et_Y_tp1 = A0s + A1*Y_t; % E_t(Y_{t+1})
-Et_Y_tp2 = A0s + A1*A0s + A1^2*Y_t; % E_t(Y_{t+2})
-Vt_Y_tp1 = Sigma; % Var_t(Y_{t+1})
-Vt_Y_tp2 = A1*Sigma*A1t + Sigma; % Var_t(Y_{t+2})
-Ct_Y_tp1_tp2 = Sigma*A1t; % Cov(Y_{t+1}, Y_{t+2})
+Et_Y_tp1 = A0s + A1*Y_t;              % E_t(Y_{t+1})
+Et_Y_tp2 = A0s + A1*A0s + A1^2*Y_t;
+Vt_Y_tp1 = Sigma;                     % Var_t(Y_{t+1})
+Vt_Y_tp2 = A1*Sigma*A1t + Sigma;
+Ct_Y_tp1_tp2 = Sigma*A1t;             % Cov(Y_{t+1}, Y_{t+2})
 
-Et_c_tp1 = Et_Y_tp1(1, :); % expected log consumption
+Et_c_tp1 = Et_Y_tp1(1, :);            % E_t(c_{t+1})
 Et_c_tp2 = Et_Y_tp2(1, :);
-Et_pi_tp1 = Et_Y_tp1(2, :); % expected inflation
-Et_l_tp1 = Et_Y_tp1(3, :); % expected leisure
+Et_pi_tp1 = Et_Y_tp1(2, :);
+Et_l_tp1 = Et_Y_tp1(3, :);
 Et_l_tp2 = Et_Y_tp2(3, :);
 
-Vt_c_tp1 = Vt_Y_tp1(1, 1); % conditional variance
+Vt_c_tp1 = Vt_Y_tp1(1, 1);            % Var_t(c_{t+1})
 Vt_c_tp2 = Vt_Y_tp2(1, 1);
 Vt_pi_tp1 = Vt_Y_tp1(2, 2);
 Vt_l_tp1 = Vt_Y_tp1(3, 3);
 
-Ct_c_pi_tp1 = Vt_Y_tp1(1, 2); % conditional covariance
+Ct_c_pi_tp1 = Vt_Y_tp1(1, 2);         % Cov_t(c_{t+1}, pi_{t+1})
 Ct_c_l_tp1 = Vt_Y_tp1(1, 3);
 Ct_pi_l_tp1 = Vt_Y_tp1(2, 3);
 
 Ct_c_l_tp2 = Vt_Y_tp2(1, 3);
 
-Ct_c_tp1_tp2 = Ct_Y_tp1_tp2(1, 1);
+Ct_c_tp1_tp2 = Ct_Y_tp1_tp2(1, 1);    % Cov_t(c_{t+1}, c_{t+2})
 Ct_c_tp1_l_tp2 = Ct_Y_tp1_tp2(1, 3);
 Ct_pi_tp1_c_tp2 = Ct_Y_tp1_tp2(2, 1);
 Ct_pi_tp1_l_tp2 = Ct_Y_tp1_tp2(2, 3);
 
+%% COMPUTE IMPLIED RATES
+chi_1t = (nu*(1-alpha) - 1)*Et_c_tp1 - phi*nu*(1-alpha)*c_t + (1-nu)*(1-alpha)*Et_l_tp1 - Et_pi_tp1 + 1/2*(nu*(1-alpha) - 1)^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + 1/2*Vt_pi_tp1 - (1-nu)*(1-alpha)*Ct_pi_l_tp1 + (nu*(1-alpha) - 1)*(1-nu)*(1-alpha)*Ct_c_l_tp1 - (nu*(1-alpha) - 1)*Ct_c_pi_tp1;
+chi_2t = nu*(1-alpha)*Et_c_tp2 - (phi*nu*(1-alpha) + 1)*Et_c_tp1 + (1-nu)*(1-alpha)*Et_l_tp2 - Et_pi_tp1 + 1/2*(nu*(1-alpha))^2*Vt_c_tp2 + 1/2*(phi*nu*(1-alpha) + 1)^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + 1/2*Vt_pi_tp1 - nu*(1-alpha)*Ct_pi_tp1_c_tp2 + (phi*nu*(1-alpha) + 1)*Ct_c_pi_tp1 - (1-nu)*(1-alpha)*Ct_pi_tp1_l_tp2 - nu*(1-alpha)*(phi*nu*(1-alpha) + 1)*Ct_c_tp1_tp2 + nu*(1-nu)*(1-alpha)^2*Ct_c_l_tp2 - (phi*nu*(1-alpha) + 1)*(1-nu)*(1-alpha)*Ct_c_tp1_l_tp2;
+chi_3t = (nu*(1-alpha) - 1)*c_t - phi*nu*(1-alpha)*c_tm1 + (1-nu)*(1-alpha)*l_t;
+chi_4t = nu*(1-alpha)*Et_c_tp1 - (phi*nu*(1-alpha) + 1)*c_t + (1-nu)*(1-alpha)*Et_l_tp1 + 1/2*(nu*(1-alpha))^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + nu*(1-nu)*(1-alpha)^2*Ct_c_l_tp1;
 
-% set parameters
-beta = 0.9926; % discount rate
-alpha = 2; % coefficient of relative risk aversion
-nu = 1; % weight of consumption (vs leisure)
-phi = 0; % habit formation parameter
+chi_real_1t = (nu*(1-alpha) - 1)*Et_c_tp1 - phi*nu*(1-alpha)*c_t + (1-nu)*(1-alpha)*Et_l_tp1 + 1/2*(nu*(1-alpha) - 1)^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + (nu*(1-alpha) - 1)*(1-nu)*(1-alpha)*Ct_c_l_tp1;
+chi_real_2t = nu*(1-alpha)*Et_c_tp2 - (phi*nu*(1-alpha) + 1)*Et_c_tp1 + (1-nu)*(1-alpha)*Et_l_tp2 + 1/2*(nu*(1-alpha))^2*Vt_c_tp2 + 1/2*(phi*nu*(1-alpha) + 1)^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 - nu*(1-alpha)*(phi*nu*(1-alpha) + 1)*Ct_c_tp1_tp2 + nu*(1-nu)*(1-alpha)^2*Ct_c_l_tp2 - (phi*nu*(1-alpha) + 1)*(1-nu)*(1-alpha)*Ct_c_tp1_l_tp2;
+chi_real_3t = (nu*(1-alpha) - 1)*c_t - phi*nu*(1-alpha)*c_tm1 + (1-nu)*(1-alpha)*l_t;
+chi_real_4t = nu*(1-alpha)*Et_c_tp1 - (phi*nu*(1-alpha) + 1)*c_t + (1-nu)*(1-alpha)*Et_l_tp1 + 1/2*(nu*(1-alpha))^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + nu*(1-nu)*(1-alpha)^2*Ct_c_l_tp1;
 
-% compute implied rates
-I_t_inv = beta * exp(-alpha*(Et_c_tp1 - c_t) - Et_pi_tp1 + alpha^2/2*Vt_c_tp1 + 1/2*Vt_pi_tp1 + alpha*Ct_c_pi_tp1);
+I_t_inv = beta * (exp(chi_1t) - beta*phi*exp(chi_2t)) ./ (exp(chi_3t) - beta*phi*exp(chi_4t));
 I_t = 1 ./ I_t_inv; % quarterly gross nominal rate
-R_t_inv = beta * exp(-alpha*(Et_c_tp1 - c_t) + alpha^2/2*Vt_c_tp1);
-R_t = 1 ./ R_t_inv; % quarterly gross real rate
+
+R_t_inv = beta * (exp(chi_real_1t) - beta*phi*exp(chi_real_2t)) ./ (exp(chi_real_3t) - beta*phi*exp(chi_real_4t));
+R_t = 1 ./ R_t_inv; % quarterly gross nominal rate
 
 % annualize implied rate and FFR
 I_t_ann = I_t .^ 4; % annualized gross nominal rate
@@ -80,19 +84,16 @@ R_t_ann = R_t .^ 4; % annualized gross real rate
 FFR_t_ann = FFR_t .^ 4; % annualized gross nominal FFR
 FFR_real_t_ann = FFR_real_t .^ 4; % annualized gross real FFR
 
+% set parameters
+beta = 0.9926; % discount rate
+alpha = 2; % coefficient of relative risk aversion
+nu = 1; % weight of consumption (vs leisure)
+phi = 0; % habit formation parameter
+
 % Collard & Dellas sample: 1960:Q1 to 2006:Q4
 collard = 1:188;
 
-%% here goes nothing
-chi_1t = (nu*(1-alpha) - 1)*Et_c_tp1 - phi*nu*(1-alpha)*c_t + (1-nu)*(1-alpha)*Et_l_tp1 - Et_pi_tp1 + 1/2*(nu*(1-alpha) - 1)^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + 1/2*Vt_pi_tp1 - (1-nu)*(1-alpha)*Ct_pi_l_tp1 + (nu*(1-alpha) - 1)*(1-nu)*(1-alpha)*Ct_c_l_tp1 - (nu*(1-alpha) - 1)*Ct_c_pi_tp1;
-chi_2t = nu*(1-alpha)*Et_c_tp2 - (phi*nu*(1-alpha) + 1)*Et_c_tp1 + (1-nu)*(1-alpha)*Et_l_tp2 - Et_pi_tp1 + 1/2*(nu*(1-alpha))^2*Vt_c_tp2 + 1/2*(phi*nu*(1-alpha) + 1)^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + 1/2*Vt_pi_tp1 - nu*(1-alpha)*Ct_pi_tp1_c_tp2 + (phi*nu*(1-alpha) + 1)*Ct_c_pi_tp1 - (1-nu)*(1-alpha)*Ct_pi_tp1_l_tp2 - nu*(1-alpha)*(phi*nu*(1-alpha) + 1)*Ct_c_tp1_tp2 + nu*(1-nu)*(1-alpha)^2*Ct_c_l_tp2 - (phi*nu*(1-alpha) + 1)*(1-nu)*(1-alpha)*Ct_c_tp1_l_tp2;
-chi_3t = (nu*(1-alpha) - 1)*c_t - phi*nu*(1-alpha)*c_tm1 + (1-nu)*(1-alpha)*l_t;
-chi_4t = nu*(1-alpha)*Et_c_tp1 - (phi*nu*(1-alpha) + 1)*c_t + (1-nu)*(1-alpha)*Et_l_tp1 + 1/2*(nu*(1-alpha))^2*Vt_c_tp1 + 1/2*((1-nu)*(1-alpha))^2*Vt_l_tp1 + nu*(1-nu)*(1-alpha)^2*Ct_c_l_tp1;
-
-I_t_inv = beta * (exp(chi_1t) - beta*phi*exp(chi_2t)) / (exp(chi_3t) - beta*phi*exp(chi_4t));
-I_t = 1 ./ I_t_inv; % quarterly gross nominal rate
-
-%% plot real rates
+%% PLOT REAL RATES
 x = log(R_t_ann(collard)) .* 100;
 y = log(FFR_real_t_ann(collard)) .* 100;
 
@@ -109,7 +110,7 @@ ybar = mean(y);
 xsig = std(x);
 ysig = std(y);
 
-%% plot nominal rates
+%% PLOT NOMINAL RATES
 x = log(I_t_ann(collard)) .* 100;
 y = log(FFR_t_ann(collard)) .* 100;
 
