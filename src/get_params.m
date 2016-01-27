@@ -1,6 +1,8 @@
 function [ nom, real ] = get_params()
 
-nom = struct('nu', {}, 'phi', {}, 'ymin', {}, 'ymax', {}, 'mean', {}, 'std', {}, 'corr', {});
+nom = struct('nu', {}, 'phi', {}, 'ymin', {}, 'ymax', {}, ...
+    'mean', {}, 'std', {}, 'min', {}, 'max', {}, 'corr', {}, ...
+    'coef', {}, 'se', {});
 
 nom(1).nu = 1;
 nom(2).nu = 1;

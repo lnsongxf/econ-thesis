@@ -48,9 +48,14 @@ alpha = 2; % coefficient of relative risk aversion
 [nom, real] = get_params();
 
 % Collard & Dellas sample: 1960:Q1 to 2006:Q4
-collard = 1:188;
+collard = 1;
+if collard == 1
+    range = 1:188;
+else
+    range = 1:T;
+end
 
-%% COMPUTE NOMINAL RATES
+%% NOMINAL RATES
 for i = 1:4
     nu = nom(i).nu;
     phi = nom(i).phi;
@@ -90,7 +95,7 @@ for i = 1:4
     I_t_ann = I_t .^ 4; % annualized gross nominal rate
     I_t_scaled = log(I_t_ann) .* 100;
 
-    plot(date(collard), I_t_scaled(collard), date(collard), FFR_t_scaled(collard));
+    plot(date(range), I_t_scaled(range), date(range), FFR_t_scaled(range));
     title('Annualized Nominal Interest Rate');
     legend('Implied', 'FFR');
     xlim([datenum(1960, 1, 1) datenum(2006, 10, 1)]);
@@ -98,13 +103,22 @@ for i = 1:4
     file = strcat('figs/crra-nominal_', int2str(i), '.png');
     print(file, '-dpng');
     
-    nom(i).mean = mean(I_t_scaled(collard));
-    nom(i).std = std(I_t_scaled(collard));
-    corr_matrix = corrcoef(I_t_scaled(collard), FFR_t_scaled(collard));
+    nom(i).mean = mean(I_t_scaled(range));
+    nom(i).std = std(I_t_scaled(range));
+    nom(i).min = min(I_t_scaled(range));
+    nom(i).max = max(I_t_scaled(range));
+    corr_matrix = corrcoef(I_t_scaled(range), FFR_t_scaled(range));
     nom(i).corr = corr_matrix(1, 2);
+    
+    spread_t = I_t_scaled - FFR_t_scaled;
+    spread_lags_t = transpose(lagmatrix(spread_t, 1:4));
+    FFR_spread_lags_t = [FFR_t_scaled; spread_lags_t];
+    model = fitlm(transpose(FFR_spread_lags_t(:, range)), spread_t(range));
+    nom(i).coef = model.Coefficients.Estimate(2); % FFR coefficient
+    nom(i).se = model.Coefficients.SE(2); % FFR standard error
 end
 
-%% COMPUTE REAL RATES
+%% REAL RATES
 for i = 1:4
     nu = real(i).nu;
     phi = real(i).phi;
@@ -137,7 +151,7 @@ for i = 1:4
     R_t_ann = R_t .^ 4; % annualized gross real rate
     R_t_scaled = log(R_t_ann) .* 100;
 
-    plot(date(collard), R_t_scaled(collard), date(collard), FFR_real_t_scaled(collard));
+    plot(date(range), R_t_scaled(range), date(range), FFR_real_t_scaled(range));
     title('Annualized Real Interest Rate');
     legend('Implied', 'FFR');
     xlim([datenum(1960, 1, 1) datenum(2006, 10, 1)]);
@@ -145,8 +159,21 @@ for i = 1:4
     file = strcat('figs/crra-real_', int2str(i), '.png');
     print(file, '-dpng');
     
-    real(i).mean = mean(R_t_scaled(collard));
-    real(i).std = std(R_t_scaled(collard));
-    corr_matrix = corrcoef(R_t_scaled(collard), FFR_real_t_scaled(collard));
+    real(i).mean = mean(R_t_scaled(range));
+    real(i).std = std(R_t_scaled(range));
+    real(i).min = min(R_t_scaled(range));
+    real(i).max = max(R_t_scaled(range));
+    corr_matrix = corrcoef(R_t_scaled(range), FFR_real_t_scaled(range));
     real(i).corr = corr_matrix(1, 2);
+    
+    spread_t = R_t_scaled - FFR_real_t_scaled;
+    spread_lags_t = transpose(lagmatrix(spread_t, 1:4));
+    FFR_spread_lags_t = [FFR_t_scaled; spread_lags_t];
+    model = fitlm(transpose(FFR_spread_lags_t(:, range)), spread_t(range));
+    real(i).coef = model.Coefficients.Estimate(2); % FFR coefficient
+    real(i).se = model.Coefficients.SE(2); % FFR standard error
 end
+
+%% WRITE RESULTS TO FILE
+writetable(struct2table(nom), 'data/ests/nominal_results.csv');
+writetable(struct2table(real), 'data/ests/real_results.csv');
