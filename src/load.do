@@ -6,7 +6,7 @@ set matsize 11000
 local plots      = 0
 local ljung_box  = 0
 local varsoc     = 0
-local reestimate = 0
+local reestimate = 1
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -79,6 +79,7 @@ foreach var in nondurables services real_disp_income real_gdp {
 }
 replace ffr                  = log((1 + ffr/100)^0.25)
 replace observed_rate        = log(1 + observed_rate/100)
+replace cci                  = log(cci)
 
 // consumption in chained 2009 dollars = nominal consumption * chain quantity index
 generate real_nondurables    = chain_nondurables * `PCEND_2009'
@@ -126,7 +127,7 @@ label variable log_rdi             "Log of real disposable income"
 label variable log_nonconsumption  "Log of real output less consumption"
 label variable ffr					       "Effective fed funds rate (net, quarterly)"
 label variable observed_rate       "90-day T-bill secondary market rate (net)"
-label variable cci                 "Continuous Commodity Index"
+label variable cci                 "Log of Continuous Commodity Index"
 
 // plots
 if `plots' == 1 {
