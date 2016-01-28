@@ -4,11 +4,11 @@ set rmsg on
 set matsize 11000
 
 // settings
-local plots      = 1
+local plots      = 0
 local ljung_box  = 0
 local varsoc     = 0
 local reestimate = 0
-local irf        = 0
+local irf        = 1
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -149,18 +149,17 @@ if `varsoc' == 1 {
 	varsoc `vars'
 }
 
-// generate lags
-local lagvars
-local pm1 = `p' - 1
-forvalues i = 1/`pm1' {
-	foreach var in `vars' {
-		generate `var'_`i' = `var'[_n-`i']
-		local lagvars = "`lagvars' `var'_`i'"
-	}
-}
-
 // estimate VAR
 if `reestimate' == 1 {
+	local lagvars
+	local pm1 = `p' - 1
+	forvalues i = 1/`pm1' {
+		foreach var in `vars' {
+			generate `var'_`i' = `var'[_n-`i']
+			local lagvars = "`lagvars' `var'_`i'"
+		}
+	}
+
 	var `vars' `lagvars', lags(1)
 	matrix b = e(b)
 	matrix input A0 = () // constant coefficients
@@ -177,16 +176,14 @@ if `reestimate' == 1 {
 
 if `irf' == 1 {
 	var `vars', lags(1/4)
+	irf set result
 	irf create my_irf, step(20) replace
-	logout, save(data/ests/irf/ffr) excel replace: irf table irf, impulse(ffr) response(ffr)
-	logout, save(data/ests/irf/log_consumption) excel replace: irf table irf, impulse(ffr) response(log_consumption)
-	logout, save(data/ests/irf/inflation) excel replace: irf table irf, impulse(ffr) response(inflation)
-	logout, save(data/ests/irf/scaled_leisure_pct) excel replace: irf table irf, impulse(ffr) response(scaled_leisure_pct)
-	erase result.irf
-	erase data/ests/irf/ffr.txt
-	erase data/ests/irf/log_consumption.txt
-	erase data/ests/irf/inflation.txt
-	erase data/ests/irf/scaled_leisure_pct.txt
+	display("irf created successfully")
+	foreach var in `vars' {
+		logout, save("data/ests/irf/`var'") excel replace: irf table irf, impulse(ffr) response(`var')
+		erase "data/ests/irf/`var'.txt"
+	}
+	erase "result.irf"
 }
 
 // export variables and lags to csv
