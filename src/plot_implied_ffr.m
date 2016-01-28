@@ -16,10 +16,10 @@ ylim([ymin ymax])
 ylabel('Annualized Interest Rate');
 if real == 0
     title(['Nominal: \nu = ', num2str(nu), ', \phi = ', num2str(phi)]);
-    file = ['figs/implied-ffr-nominal_', int2str(i), '.png'];
+    file = ['figs/implied-ffr/nominal_', int2str(i), '.png'];
 else
     title(['Real: \nu = ', num2str(nu), ', \phi = ', num2str(phi)]);
-    file = ['figs/implied-ffr-real_', int2str(i), '.png'];
+    file = ['figs/implied-ffr/real_', int2str(i), '.png'];
 end
 print(file, '-dpng');
 

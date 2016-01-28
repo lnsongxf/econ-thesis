@@ -4,11 +4,11 @@ set rmsg on
 set matsize 11000
 
 // settings
-local plots      = 0
+local plots      = 1
 local ljung_box  = 0
 local varsoc     = 0
 local reestimate = 0
-local irf        = 1
+local irf        = 0
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -133,9 +133,9 @@ label variable cci                 "Log of Continuous Commodity Index"
 
 // plots
 if `plots' == 1 {
-	foreach var in real_consumption_pc inflation scaled_leisure_pct {
+	foreach var in log_consumption inflation scaled_leisure_pct ffr {
 		tsline `var'
-		graph export "figs/`var'.png", replace
+		graph export "figs/series/`var'.png", replace
 	}
 }
 
