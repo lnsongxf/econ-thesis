@@ -1,12 +1,14 @@
 clear all
 set more off
+set rmsg on
 set matsize 11000
 
 // settings
 local plots      = 0
 local ljung_box  = 0
 local varsoc     = 0
-local reestimate = 1
+local reestimate = 0
+local irf        = 1
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -171,8 +173,24 @@ if `reestimate' == 1 {
 	mat2txt2 A0 using "data/ests/A0.csv", comma clean replace
 	mat2txt2 A1 using "data/ests/A1.csv", comma clean replace
 	mat2txt2 Sigma using "data/ests/Sigma.csv", comma clean replace
+}
 
-	// export variables and lags to csv
+if `irf' == 1 {
+	var `vars', lags(1/4)
+	irf create my_irf, step(20) replace
+	logout, save(data/ests/irf_ffr) excel replace: irf table irf, impulse(ffr) response(ffr)
+	logout, save(data/ests/irf_log_consumption) excel replace: irf table irf, impulse(ffr) response(log_consumption)
+	logout, save(data/ests/irf_inflation) excel replace: irf table irf, impulse(ffr) response(inflation)
+	logout, save(data/ests/irf_scaled_leisure_pct) excel replace: irf table irf, impulse(ffr) response(scaled_leisure_pct)
+	erase result.irf
+	erase data/ests/irf_ffr.txt
+	erase data/ests/irf_log_consumption.txt
+	erase data/ests/irf_inflation.txt
+	erase data/ests/irf_scaled_leisure_pct.txt
+}
+
+// export variables and lags to csv
+if `reestimate' == 1 {
 	keep year month day `vars' `lagvars'
 	export delimited "data/clean/aggregate-series.csv", replace
 }
