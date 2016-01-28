@@ -170,23 +170,23 @@ if `reestimate' == 1 {
 	varstable, amat(A1) // companion matrix
 	matrix Sigma = e(Sigma) // covariance of error term
 
-	mat2txt2 A0 using "data/ests/A0.csv", comma clean replace
-	mat2txt2 A1 using "data/ests/A1.csv", comma clean replace
-	mat2txt2 Sigma using "data/ests/Sigma.csv", comma clean replace
+	mat2txt2 A0 using "data/ests/var/A0.csv", comma clean replace
+	mat2txt2 A1 using "data/ests/var/A1.csv", comma clean replace
+	mat2txt2 Sigma using "data/ests/var/Sigma.csv", comma clean replace
 }
 
 if `irf' == 1 {
 	var `vars', lags(1/4)
 	irf create my_irf, step(20) replace
-	logout, save(data/ests/irf_ffr) excel replace: irf table irf, impulse(ffr) response(ffr)
-	logout, save(data/ests/irf_log_consumption) excel replace: irf table irf, impulse(ffr) response(log_consumption)
-	logout, save(data/ests/irf_inflation) excel replace: irf table irf, impulse(ffr) response(inflation)
-	logout, save(data/ests/irf_scaled_leisure_pct) excel replace: irf table irf, impulse(ffr) response(scaled_leisure_pct)
+	logout, save(data/ests/irf/ffr) excel replace: irf table irf, impulse(ffr) response(ffr)
+	logout, save(data/ests/irf/log_consumption) excel replace: irf table irf, impulse(ffr) response(log_consumption)
+	logout, save(data/ests/irf/inflation) excel replace: irf table irf, impulse(ffr) response(inflation)
+	logout, save(data/ests/irf/scaled_leisure_pct) excel replace: irf table irf, impulse(ffr) response(scaled_leisure_pct)
 	erase result.irf
-	erase data/ests/irf_ffr.txt
-	erase data/ests/irf_log_consumption.txt
-	erase data/ests/irf_inflation.txt
-	erase data/ests/irf_scaled_leisure_pct.txt
+	erase data/ests/irf/ffr.txt
+	erase data/ests/irf/log_consumption.txt
+	erase data/ests/irf/inflation.txt
+	erase data/ests/irf/scaled_leisure_pct.txt
 }
 
 // export variables and lags to csv

@@ -22,9 +22,9 @@ FFR_real_t_ann = FFR_real_t .^4; % annualized gross real FFR
 FFR_real_t_scaled = log(FFR_real_t_ann) .* 100;
 
 % read in VAR estimates
-A0 = csvread('data/ests/A0.csv', 0, 0, [0 0 27 0]);
-A1 = csvread('data/ests/A1.csv', 0, 0, [0 0 27 27]);
-Sigma = csvread('data/ests/Sigma.csv', 0, 0, [0 0 27 27]);
+A0 = csvread('data/ests/var/A0.csv', 0, 0, [0 0 27 0]);
+A1 = csvread('data/ests/var/A1.csv', 0, 0, [0 0 27 27]);
+Sigma = csvread('data/ests/var/Sigma.csv', 0, 0, [0 0 27 27]);
 assert(all(size(A0) == [kp, 1]));
 assert(all(size(A1) == [kp, kp]));
 assert(all(size(Sigma) == [kp, kp]));
@@ -175,5 +175,5 @@ for i = 1:4
 end
 
 %% WRITE RESULTS TO FILE
-writetable(struct2table(nom), 'data/ests/nominal_results.csv');
-writetable(struct2table(real), 'data/ests/real_results.csv');
+writetable(struct2table(nom), 'data/ests/implied_rates/nominal.csv');
+writetable(struct2table(real), 'data/ests/implied_rates/real.csv');
