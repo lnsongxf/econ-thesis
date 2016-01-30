@@ -20,14 +20,7 @@ A1(abs(A1) < 1e-9) = [0];
 Sigma(abs(Sigma) < 1e-9) = [0];
 
 % compute FFR
-FFR_t = exp(ffr_t); % quarterly gross nominal FFR
-FFR_t_ann = FFR_t .^ 4; % annualized gross nominal FFR
-FFR_t_scaled = log(FFR_t_ann) .* 100;
-
-ffr_real_t = ffr_t - pi_t; % quarterly net real FFR
-FFR_real_t = exp(ffr_real_t); % quarterly gross real FFR
-FFR_real_t_ann = FFR_real_t .^4; % annualized gross real FFR
-FFR_real_t_scaled = log(FFR_real_t_ann) .* 100;
+[FFR_t_scaled, FFR_real_t_scaled] = compute_ffr_scaled(Y_t);
 
 
 %% SET PARAMETERS
