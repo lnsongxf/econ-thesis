@@ -1,6 +1,5 @@
 clear all
 set more off
-set rmsg on
 set matsize 11000
 
 // settings
@@ -174,14 +173,13 @@ if `reestimate' == 1 {
 	mat2txt2 Sigma using "data/ests/var/Sigma.csv", comma clean replace
 }
 
+// compute orthogonalized impulse response functions
 if `irf' == 1 {
 	var `vars', lags(1/4)
 	irf set result
 	irf create my_irf, step(20) replace
-	display("irf created successfully")
 	foreach var in `vars' {
-		logout, save("data/ests/irf/`var'") excel replace: irf table irf, impulse(ffr) response(`var')
-		erase "data/ests/irf/`var'.txt"
+		logout, save("data/ests/irf/`var'") replace: irf table oirf, impulse(ffr) response(`var')
 	}
 	erase "result.irf"
 }
