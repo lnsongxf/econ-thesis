@@ -7,17 +7,10 @@ p = 4; % number of lags
 k = kp/p; % number of covariates
 
 % read in VAR estimates
-A0 = csvread('data/ests/var/A0.csv', 0, 0, [0 0 27 0]);
-A1 = csvread('data/ests/var/A1.csv', 0, 0, [0 0 27 27]);
-Sigma = csvread('data/ests/var/Sigma.csv', 0, 0, [0 0 27 27]);
+[A0, A1, Sigma] = read_var_ests();
 assert(all(size(A0) == [kp, 1]));
 assert(all(size(A1) == [kp, kp]));
 assert(all(size(Sigma) == [kp, kp]));
-
-% clean up values that should be zero
-A0(abs(A0) < 1e-9) = [0];
-A1(abs(A1) < 1e-9) = [0];
-Sigma(abs(Sigma) < 1e-9) = [0];
 
 % compute FFR
 [FFR_t_scaled, FFR_real_t_scaled] = compute_ffr_scaled(Y_t);
