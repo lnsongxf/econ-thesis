@@ -44,11 +44,12 @@ Et_pi_tp1 = Et_Y_tp1(2, :);
 Et_l_tp1 = Et_Y_tp1(3, :);
 Et_l_tp2 = Et_Y_tp2(3, :);
 
-% compute more impulse responses
+% plot real FFR impulse response
 ffr_real_t = ffr_t - pi_t; % net quarterly real FFR
-i_t = -( -alpha*(Et_c_tp1 - c_t) - Et_pi_tp1 ); % net quarterly implied nominal rate
-r_t = -( -alpha*(Et_c_tp1 - c_t) ); % net quarter implied real rate
-%plot(period, i_t);
+plot(period, ffr_real_t);
+title('Real FFR');
+xlabel('Quarter');
+print('figs/irf/real_ffr.png', '-dpng');
 
 
 %% IMPLIED NOMINAL RATES
