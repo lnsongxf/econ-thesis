@@ -1,4 +1,4 @@
-function [ R_t_scaled ] = compute_implied_rate( A0, A1, Sigma, Y_t, options )
+function [ R_t_return ] = compute_implied_rate( A0, A1, Sigma, Y_t, options )
 
 % settings
 real = options.real;
@@ -75,6 +75,12 @@ R_t_inv = beta * (exp(chi_1t) - beta*phi*exp(chi_2t)) ./ (exp(chi_3t) - beta*phi
 R_t = 1 ./ R_t_inv; % quarterly gross rate
 R_t_ann = R_t .^ 4; % annualized gross rate
 R_t_scaled = log(R_t_ann) .* 100;
+
+if options.irf == 1
+    R_t_return = -log(R_t_inv);
+else
+    R_t_return = R_t_scaled;
+end
 
 end
 
