@@ -101,7 +101,7 @@ NSEP + HP & 0.8 & 0.34 & nonseparable consumption and leisure + habit persistenc
 
 \begin{frame}<1>[label=implied_ffr_sep-hp]
   \frametitle<1>{Results: SEP + HP}
-  \frametitle<2>{Problems}
+  \frametitle<2>{Problems: SEP + HP Implied Rates}
 \begin{center}
 \begin{tabular}{cc}
 \includegraphics[height=90px]{figs/implied_ffr/nominal_2_collard.png} &
@@ -145,17 +145,34 @@ $$\epsilon_t \overset{\text{iid}}{\sim} N(0, \Sigma)$$
 \begin{align*}
 y_t &= \begin{bmatrix} \log(\text{real consumption}_t) \\ \text{inflation}_t \\ \text{leisure}_t \\ \log(\text{real disposable income}_t) \\ \log(\text{income less consumption}_t) \\ \text{effective FFR}_t \\ \log(\text{CCI}_t) \end{bmatrix}
 \end{align*}
-\item Want to observe responses of $y_t$ and implied rate to a $\sigma_{FFR}$ shock to the FFR at $t = 0$ (i.e. $\epsilon_{FFR,0} = \sigma_{FFR}$)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Impulse Response}
+\begin{itemize}
+\item Want to observe responses of $y_t$ and implied rate to a $\epsilon_{FFR,0} = 1$ shock to the FFR at $t = 0$
+\item Impulse response: $$\frac{\partial y_t}{\partial \epsilon_{FFR,0}} = (A_1^t + A_2^{t-1} + A_3^{t-2} + A_4^{t-3}) \epsilon_0$$
+\item Orthogonalized IRF:
+  \begin{itemize}
+  \item When error terms $\epsilon_{j,t}$ are correlated, exogenous shock to FFR will be correlated with shock to other covariates
+  \item Cholesky decomposition $\Sigma = PP'$
+  \item New error terms $u_t = P^{-1} \epsilon_t \sim N(0, I)$
+  \item Orthogonalized shock $\frac{\partial y_t}{\partial u_{FFR,0}}$
+  \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Impulse Response}
 \begin{itemize}
 \item Generate $y_t^\text{no shock}$ for $t = 0, \ldots, 20$ by iterating forward with estimated VAR coefficients from $y_0 = \hat{\mu}$ (sample mean)
-\item Compute orthogonalized IRF in Stata: $$\frac{\partial y_t}{\partial \epsilon_{FFR,0}} = (A_1^t + A_2^{t-1} + A_3^{t-2} + A_4^{t-3}) \epsilon_0 \qquad \text{(kind of)}$$
-\item Generate $y_t^\text{shock} = y_t^\text{no shock} + \frac{\partial y_t}{\partial \epsilon_{FFR,0}}$
-\item Compute implied rates and impulse response using $y_t^\text{no shock}$ and $y_t^\text{shock}$
-$$\frac{\partial \log(1+r_t)}{\partial \epsilon_{FFR,0}} \approx \log(1 + r_t^\text{shock}) - \log(1 + r_t^\text{no shock})$$
+\item Using \cite{kilian98}, for each treatment, for 1000 simulations:
+  \begin{enumerate}
+  \item Simulate data series by choosing random start point $y_0$ and iterating forward with random errors
+  \item Compute $\frac{\partial y_t}{\partial u_{FFR,0}}$ for simulated series
+  \item Generate $y_t^\text{shock} = y_t^\text{no shock} + \frac{\partial y_t}{\partial u_{FFR,0}}$
+  \item Compute implied rates and impulse response using $y_t^\text{no shock}$ and $y_t^\text{shock}$: $$\frac{\partial \log(1+r_t)}{\partial u_{FFR,0}} \approx \log(1 + r_t^\text{shock}) - \log(1 + r_t^\text{no shock})$$
+  \end{enumerate}
+\item Plot 5th, 50th, and 95th percentiles for each treatment
 \end{itemize}
 \end{frame}
 
@@ -197,7 +214,7 @@ $$\frac{\partial \log(1+r_t)}{\partial \epsilon_{FFR,0}} \approx \log(1 + r_t^\t
 
 \againframe<2>{implied_ffr_sep-hp}
 
-\begin{frame}{Problems}
+\begin{frame}{Problems: SEP + HP Implied Rates}
 \begin{itemize}
 \item SEP + HP volatility much lower than in \cite{collard11} and \cite{canzoneri07}
   \begin{itemize}
@@ -207,17 +224,29 @@ $$\frac{\partial \log(1+r_t)}{\partial \epsilon_{FFR,0}} \approx \log(1 + r_t^\t
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Problems: NSEP + HP Impulse Response}
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[height=90px]{figs/irf/nominal_implied_4_collard.png} &
+\includegraphics[height=90px]{figs/irf/nominal_implied_4.png} \\
+\includegraphics[height=90px]{figs/irf/real_implied_4_collard.png} &
+\includegraphics[height=90px]{figs/irf/real_implied_4.png} \\
+\cite{collard11} & Li (2016)
+\end{tabular}
+\end{center}
+\end{frame}
+
 \begin{frame}{Other Challenges}
 \begin{itemize}
-\item 673 lines of code (fewer than I thought) becoming unwieldy
+\item Maintaining code modularity and organization
 \item No way to export impulse response tables from Stata
 \item Computing impulse responses of implied rates (i.e. as a function of $y_t$ impulse response)
+\item \cite{kilian98}'s 18-year-old MATLAB code
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Next}
 \begin{itemize}
-\item Generate confidence intervals for impulse response via \cite{kilian98}
 \item Monte Carlo experiment
 \item \textbf{Heterogeneous preferences} (still)
 \end{itemize}
