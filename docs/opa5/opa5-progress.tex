@@ -137,6 +137,64 @@ NSEP + HP & 0.8 & 0.34 & nonseparable consumption and leisure + habit persistenc
 \end{center}
 \end{frame}
 
+\begin{frame}{Results: Summary Stats for Nominal Rates}
+\begin{center}
+\begin{tabular}{|l|c|cccc|} \hline
+& FFR & SEP & SEP + HP & NSEP & NSEP + HP \\ \hline
+Mean & 5.87 & 10.51 & 8.87 & 9.32 & 8.75 \\
+Std Dev & 3.05 & 1.91 & 6.64 & 1.71 & 3.04 \\
+Correlation & --- & 0.32 & 0.07 & 0.61 & 0.30 \\ \hline
+Corr (C\&D) & --- & 0.26 & 0.04 & 0.63 & 0.38 \\
+Corr (Canzoneri) & --- & 0.20 & -0.10 & --- & --- \\ \hline
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Results: Summary Stats for Real Rates}
+\begin{center}
+\begin{tabular}{|l|c|cccc|} \hline
+& FFR & SEP & SEP + HP & NSEP & NSEP + HP \\ \hline
+Mean & 1.98 & 6.61 & 4.98 & 5.42 & 4.85 \\
+Std Dev & 2.30  & 2.16 & 6.94 & 1.26 & 3.10 \\
+Correlation & --- & 0.06 & -0.08 & 0.10 & -0.02 \\ \hline
+Corr (C\&D) & --- & 0.05 & 0.15 & 0.28 & 0.27 \\
+Corr (Canzoneri) & --- & -0.37 & -0.07 & --- & --- \\ \hline
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Spread vs. Monetary Policy}
+\begin{itemize}
+\item How is interest rate spread (implied rate - FFR) correlated with monetary policy?
+\item Regress spread on FFR and 4 lags of spread
+\item As in \cite{canzoneri07}, expansionary monetary policy associated with greater spreads
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Results: Effect of FFR on Nominal Rate Spread}
+\begin{center}
+\begin{tabular}{|l|cccc|} \hline
+& SEP & SEP + HP & NSEP & NSEP + HP \\ \hline
+Li & -0.462 & -1.105 & -0.378 & -0.701 \\
+& (0.055) & (0.193) & (0.043) & (0.105) \\ \hline
+Canzoneri & -0.357 & -1.035 & --- & --- \\ 
+& (0.047) & (0.826) & --- & --- \\ \hline
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Results: Effect of FFR on Real Rate Spread}
+\begin{center}
+\begin{tabular}{|l|cccc|} \hline
+& SEP & SEP + HP & NSEP & NSEP + HP \\ \hline
+Li & -0.500 & -1.040 & -0.400 & -0.669 \\
+& (0.061) & (0.196) & (0.051) & (0.108) \\ \hline
+Canzoneri & -0.482 & -1.215 & --- & --- \\
+& (0.015) & (0.214) & --- & --- \\ \hline
+\end{tabular}
+\end{center}
+\end{frame}
+
 \begin{frame}{Impulse Response}
 \begin{itemize}
 \item Previously estimated VAR(4)
