@@ -3,7 +3,8 @@
 % University of Michigan
 % April 1997
 
-function [CI]=boot(A,U,y,V)
+%function [CI]=boot(A,U,y,V)
+function [ dffr_t_CI, dffr_real_t_CI, dlog_I_t_CI, dlog_R_t_CI ] = boot( A, U, y, V, A0, Y_t ) % PZL 2/2/16
 
 global p h 
 
@@ -19,6 +20,12 @@ end;
 Ur=zeros(q*p,t-p);   
 Yr=zeros(q*p,t-p+1); 
 IRFrmat=zeros(nrep,q^2*(h+1));
+
+% % PZL 2/2/16
+dffr_ts = zeros(nrep, h+1);
+dffr_real_ts = zeros(nrep, h+1);
+dlog_I_ts = zeros(nrep, h+1);
+dlog_R_ts = zeros(nrep, h+1);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  start of bootstrap simulation                                          %
@@ -54,7 +61,22 @@ for j=1:nrep
 
 	[IRFr]=irfvar(Ar,SIGMAr(1:q,1:q),pr);
 	IRFrmat(j,:)=vec(IRFr)';
+    
+    % PZL 2/2/16
+    dy_t = IRFr(36:42, :);
+    dffr_ts(j, :) = dy_t(6, :);
+    dffr_real_ts(j, :) = dy_t(6, :) - dy_t(2, :);
+    [dlog_I_t, dlog_R_t] = compute_implied_irf(dy_t, Y_t, A0, Ar, SIGMAr, 0, 1);
+    dlog_I_ts(j, :) = dlog_I_t;
+    dlog_R_ts(j, :) = dlog_R_t;
 end;   
 
 % Calculate 90 perccent interval endpoints
 CI=prctile(IRFrmat,[5 95]);
+
+% PZL 2/2/16
+dffr_t_CI = prctile(dffr_ts, [5 50 95]);
+dffr_real_t_CI = prctile(dffr_real_ts, [5 50 95]);
+dlog_I_t_CI = prctile(dlog_I_ts, [5 50 95]);
+dlog_R_t_CI = prctile(dlog_R_ts, [5 50 95]);
+

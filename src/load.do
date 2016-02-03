@@ -7,7 +7,6 @@ local plots      = 0
 local ljung_box  = 0
 local varsoc     = 0
 local reestimate = 0
-local irf        = 1
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -171,21 +170,8 @@ if `reestimate' == 1 {
 	mat2txt2 A0 using "data/ests/var/A0.csv", comma clean replace
 	mat2txt2 A1 using "data/ests/var/A1.csv", comma clean replace
 	mat2txt2 Sigma using "data/ests/var/Sigma.csv", comma clean replace
-}
 
-// compute orthogonalized impulse response functions
-if `irf' == 1 {
-	var `vars', lags(1/4)
-	irf set result
-	irf create my_irf, step(20) replace
-	foreach var in `vars' {
-		logout, save("data/ests/irf/`var'") replace: irf table oirf, impulse(ffr) response(`var')
-	}
-	erase "result.irf"
-}
-
-// export variables and lags to csv
-if `reestimate' == 1 {
+	// export variables and lags to csv
 	keep year month day `vars' `lagvars'
 	export delimited "data/clean/aggregate-series.csv", replace
 }
