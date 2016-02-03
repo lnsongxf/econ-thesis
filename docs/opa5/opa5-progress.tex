@@ -77,8 +77,8 @@ $$\frac{1}{1+i_t} = \beta \frac{\exp(\chi_{1t}) - \beta \varphi \exp(\chi_{2t})}
 $$u(C_t, \ell_t) = \frac{[(C_t/C_{t-1}^\varphi)^\nu \ell_t^{1-\nu}]^{1-\alpha}}{1-\alpha}$$
 \bigskip
 \begin{center}
-\begin{tabular}{|l|c|c|p{0.5\textwidth}|} \hline
-& $\phi$ & $\nu$ & Specification \\ \hline
+\begin{tabular}{|l|c|c|p{0.45\textwidth}|} \hline
+& $\varphi$ & $\nu$ & Specification \\ \hline
 SEP & 0 & 1 & CRRA \\
 SEP + HP & 0.8 & 1 & habit persistence \\
 NSEP & 0 & 0.34 & nonseparable consumption and leisure \\
@@ -155,7 +155,7 @@ y_t &= \begin{bmatrix} \log(\text{real consumption}_t) \\ \text{inflation}_t \\ 
 \item Orthogonalized IRF:
   \begin{itemize}
   \item When error terms $\epsilon_{j,t}$ are correlated, exogenous shock to FFR will be correlated with shock to other covariates
-  \item Cholesky decomposition $\Sigma = PP'$
+  \item Cholesky decomposition $\Sigma = PP'$ ($P$ lower triangular)
   \item New error terms $u_t = P^{-1} \epsilon_t \sim N(0, I)$
   \item Orthogonalized shock $\frac{\partial y_t}{\partial u_{FFR,0}}$
   \end{itemize}
@@ -172,7 +172,7 @@ y_t &= \begin{bmatrix} \log(\text{real consumption}_t) \\ \text{inflation}_t \\ 
   \item Generate $y_t^\text{shock} = y_t^\text{no shock} + \frac{\partial y_t}{\partial u_{FFR,0}}$
   \item Compute implied rates and impulse response using $y_t^\text{no shock}$ and $y_t^\text{shock}$: $$\frac{\partial \log(1+r_t)}{\partial u_{FFR,0}} \approx \log(1 + r_t^\text{shock}) - \log(1 + r_t^\text{no shock})$$
   \end{enumerate}
-\item Plot 5th, 50th, and 95th percentiles for each treatment
+\item Plot point estimate and 95\% confidence intervals for each treatment
 \end{itemize}
 \end{frame}
 
