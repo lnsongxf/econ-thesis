@@ -75,8 +75,8 @@ end;
 CI=prctile(IRFrmat,[5 95]);
 
 % PZL 2/2/16
-dffr_t_CI = prctile(dffr_ts, [5 50 95]);
-dffr_real_t_CI = prctile(dffr_real_ts, [5 50 95]);
-dlog_I_t_CI = prctile(dlog_I_ts, [5 50 95]);
-dlog_R_t_CI = prctile(dlog_R_ts, [5 50 95]);
+dffr_t_CI = prctile(dffr_ts, [2.5 50 97.5]);
+dffr_real_t_CI = prctile(dffr_real_ts, [2.5 50 97.5]);
+dlog_I_t_CI = prctile(dlog_I_ts, [2.5 50 97.5]);
+dlog_R_t_CI = prctile(dlog_R_ts, [2.5 50 97.5]);
 

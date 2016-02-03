@@ -23,9 +23,6 @@ for t = 2:21
     Y_t(:, t) = A0 + A1*Y_t(:, t-1);
 end
 
-% generate alternative timeline
-Y_t_shock = Y_t + dY_t;
-
 
 %% COMPUTE IMPULSE RESPONSE
 for i = 1:4
@@ -34,22 +31,22 @@ for i = 1:4
     
     if i == 1
         % nominal FFR
-        dffr_t_5 = dffr_t_CI(1, :);
-        dffr_t_50 = dffr_t_CI(2, :);
-        dffr_t_95 = dffr_t_CI(3, :);
+        dffr_t_lower = dffr_t_CI(1, :); % 2.5th percentile
+        dffr_t_50 = dffr_t_CI(2, :);    % 50th percentile
+        dffr_t_upper = dffr_t_CI(3, :); % 97.5th percentile
 
-        plot(period, dffr_t_50, period, dffr_t_5, '--k', period, dffr_t_95, '--k');
+        plot(period, dffr_t_50, period, dffr_t_lower, '--k', period, dffr_t_upper, '--k');
         title('Nominal FFR');
         xlabel('Quarter');
         ylabel('Impulse Response');
         print('figs/irf/nominal_ffr.png', '-dpng');
 
         % real FFR
-        dffr_real_t_5 = dffr_real_t_CI(1, :);
+        dffr_real_t_lower = dffr_real_t_CI(1, :);
         dffr_real_t_50 = dffr_real_t_CI(2, :);
-        dffr_real_t_95 = dffr_real_t_CI(3, :);
+        dffr_real_t_upper = dffr_real_t_CI(3, :);
 
-        plot(period, dffr_real_t_50, period, dffr_real_t_5, '--k', period, dffr_real_t_95, '--k');
+        plot(period, dffr_real_t_50, period, dffr_real_t_lower, '--k', period, dffr_real_t_upper, '--k');
         title('Real FFR');
         xlabel('Quarter');
         ylabel('Impulse Response');
@@ -57,22 +54,22 @@ for i = 1:4
     end
     
     % nominal implied rate
-    dlog_I_t_5 = dlog_I_t_CI(1, :);
+    dlog_I_t_lower = dlog_I_t_CI(1, :);
     dlog_I_t_50 = dlog_I_t_CI(2, :);
-    dlog_I_t_95 = dlog_I_t_CI(3, :);
+    dlog_I_t_upper = dlog_I_t_CI(3, :);
     
-    plot(period, dlog_I_t_50, period, dlog_I_t_5, '--k', period, dlog_I_t_95, '--k');
+    plot(period, dlog_I_t_50, period, dlog_I_t_lower, '--k', period, dlog_I_t_upper, '--k');
     title(['Implied Nominal Rate: \nu = ', num2str(nom(i).nu), ', \phi = ', num2str(nom(i).phi)]);
     xlabel('Quarter');
     ylabel('Impulse Response');
     print(['figs/irf/nominal_implied_', int2str(i), '.png'], '-dpng');
     
     % real implied rate
-    dlog_R_t_5 = dlog_R_t_CI(1, :);
+    dlog_R_t_lower = dlog_R_t_CI(1, :);
     dlog_R_t_50 = dlog_R_t_CI(2, :);
-    dlog_R_t_95 = dlog_R_t_CI(3, :);
+    dlog_R_t_upper = dlog_R_t_CI(3, :);
     
-    plot(period, dlog_R_t_50, period, dlog_R_t_5, '--k', period, dlog_R_t_95, '--k');
+    plot(period, dlog_R_t_50, period, dlog_R_t_lower, '--k', period, dlog_R_t_upper, '--k');
     title(['Implied Real Rate: \nu = ', num2str(real(i).nu), ', \phi = ', num2str(real(i).phi)]);
     xlabel('Quarter');
     ylabel('Impulse Response');
