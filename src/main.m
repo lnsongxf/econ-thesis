@@ -30,7 +30,7 @@ end
 
 %% NOMINAL RATES
 for i = 1:4
-    options = struct('i', i, 'real', 0, 'nu', nom(i).nu, 'phi', nom(i).phi, 'ymin', nom(i).ymin, 'ymax', nom(i).ymax);
+    options = struct('i', i, 'real', 0, 'nu', nom(i).nu, 'phi', nom(i).phi, 'ymin', nom(i).ymin, 'ymax', nom(i).ymax, 'irf', 0);
     I_t_scaled = compute_implied_rate(A0, A1, Sigma, Y_t, options);
     plot_implied_ffr(date(range), I_t_scaled(range), FFR_t_scaled(range), options);
     
@@ -55,7 +55,7 @@ for i = 1:4
     ymin = real(i).ymin;
     ymax = real(i).ymax;
     
-    options = struct('i', i, 'real', 1, 'nu', real(i).nu, 'phi', real(i).phi, 'ymin', real(i).ymin, 'ymax', real(i).ymax);
+    options = struct('i', i, 'real', 1, 'nu', real(i).nu, 'phi', real(i).phi, 'ymin', real(i).ymin, 'ymax', real(i).ymax, 'irf', 0);
     R_t_scaled = compute_implied_rate(A0, A1, Sigma, Y_t, options);
     plot_implied_ffr(date(range), R_t_scaled(range), FFR_real_t_scaled(range), options);
     
