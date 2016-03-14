@@ -20,20 +20,20 @@ save "`cci_dta'"
 
 // get 2009 nondurables and services
 foreach var in PCEND PCESV {
-  import delimited using "data/raw/`var'_2009.csv", clear
+  import delimited using "data/raw/fred/`var'_2009.csv", clear
 	local `var'_2009 = value[1] * 1e9
 }
 
 // read in series and save to tempfiles
 local series DFF EMRATIO PRS85006023 PCEND PCESV DPIC96 GDPC96 DNDGRA3Q086SBEA DSERRA3Q086SBEA DTB3
 foreach var in `series' {
-	import delimited using "data/raw/`var'.csv", clear
+	import delimited using "data/raw/fred/`var'.csv", clear
 	tempfile `var'_dta
 	save "``var'_dta'"
 }
 
 // merge tempfiles into single table
-import delimited using "data/raw/CNP16OV.csv", clear
+import delimited using "data/raw/fred/CNP16OV.csv", clear
 rename value CNP16OV
 foreach var in `series' {
   merge 1:1 date using "``var'_dta'"
