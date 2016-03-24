@@ -1,0 +1,29 @@
+CEX interview data from 1996.II to 2013.I
+
+BONDHOLDER CRITERIA (Vissing-Jorgensen)
+- Positive response to at least one of:
+  1) Stock, bonds, and mutual funds category
+  2) U.S. savings bond category
+- Bondholder at beginning of period t if at least one of:
+  1) Same amount of asset as a year ago and positive amount in interview
+  2) Lower holdings of asset than a year ago
+  3) Increase in holdings by less than reported holdings in interview
+
+Total expenditures = food + alcoholic beverages + housing + apparel and services + transportation + health care + entertainment + personal care + reading + education + tobacco and smoking supplies + miscellaneous + cash contributions + personal insurance and pensions
+
+MEMORABLE GOODS (Krueger)
+Drop if
+- Zero food expenditures
+- Only food expenditures
+- Reference person's age <21 or >64
+- Disposable income <= 0
+- Rural
+- Don't have 12 months of consumption expenditure reports
+
+Nondurable goods = food at home + food at school + meals received as pay + tobacco + alcohol at home + utility + household operation + rents for primary residence + local transportation + business services + education + healthcare
+Nondurable goods = FDHOME + FDMAP + ALCBEV + TOBACC + UTIL + HOUSOP + RENDWE + (TRANS - TRNTRP) + EDUCA + HEALTH
+
+Memorable goods = food away from home + food for catered affairs + alcohol out + nondurable expenditure on trips and vacations + clothing and shoes + jewelry and watches + photographic rental and services + religious and welfare activities
+
+Disposable income = before-tax income - federal, state, local income tax payments - property tax - other tax (all net of tax refunds) - deductions for social security and pension plans
+Disposable income = FINCATAX - FJSSDEDX - FPRIPENX

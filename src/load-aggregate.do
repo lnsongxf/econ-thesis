@@ -14,7 +14,7 @@ local kp = 28
 
 // read in CCI index
 import delimited using "data/raw/cci-index.txt", clear
-generate quarter = qofd(date(date, "YMD")) + 1
+generate period = qofd(date(date, "YMD")) + 1
 tempfile cci_dta
 save "`cci_dta'"
 
@@ -46,13 +46,13 @@ generate newDate = date(date, "YMD")
 generate year    = year(newDate)
 generate month   = month(newDate)
 generate day     = day(newDate)
-generate quarter = qofd(newDate)
+generate period  = qofd(newDate)
 drop newDate
-format quarter %tq
-tsset quarter
+format period %tq
+tsset period
 
 // merge CCI index
-merge 1:1 quarter using "`cci_dta'"
+merge 1:1 period using "`cci_dta'"
 drop _merge
 
 // rename raw series
@@ -91,7 +91,7 @@ drop chain_nondurables chain_services
 generate real_consumption_pc = (real_nondurables + real_services) / pop
 generate real_disp_income_pc = real_disp_income / pop
 
-sort quarter
+sort period
 generate deflator            = (nondurables + services) / (real_nondurables + real_services)
 generate gross_inflation     = deflator[_n] / deflator[_n-1]
 
@@ -112,14 +112,14 @@ generate log_nonconsumption  = log(nonconsumption_pc)
 generate inflation           = log(gross_inflation)
 
 // drop extra variables
-local timevars year month day quarter
+local timevars year month day period
 local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption ffr cci
 keep  `timevars' real_consumption_pc `vars' observed_rate deflator_nondurables
 order `timevars' real_consumption_pc `vars' observed_rate deflator_nondurables
 label variable year                "Year"
 label variable month               "Month"
 label variable day                 "Day"
-label variable quarter             "Quarter"
+label variable period              "Quarter"
 label variable real_consumption_pc "Per-capita real consumption ($)"
 label variable log_consumption     "Log of per-capita real consumption"
 label variable inflation           "Inflation rate (net, quarterly)"
@@ -137,7 +137,7 @@ save "data/clean/aggregate-series-all.dta", replace
 if `plots' == 1 {
 	foreach var in log_consumption inflation scaled_leisure_pct ffr {
 		tsline `var'
-		graph export "figs/series/`var'.png", replace
+		graph export "figs/series/aggregate/`var'.png", replace
 	}
 }
 
@@ -171,9 +171,9 @@ if `reestimate' == 1 {
 	varstable, amat(A1) // companion matrix
 	matrix Sigma = e(Sigma) // covariance of error term
 
-	mat2txt2 A0 using "data/ests/var/A0.csv", comma clean replace
-	mat2txt2 A1 using "data/ests/var/A1.csv", comma clean replace
-	mat2txt2 Sigma using "data/ests/var/Sigma.csv", comma clean replace
+	mat2txt2 A0 using "data/ests/aggregate/var/A0.csv", comma clean replace
+	mat2txt2 A1 using "data/ests/aggregate/var/A1.csv", comma clean replace
+	mat2txt2 Sigma using "data/ests/aggregate/var/Sigma.csv", comma clean replace
 
 	// export variables and lags to csv
 	keep year month day `vars' `lagvars'

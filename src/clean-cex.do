@@ -42,11 +42,6 @@ forvalues year = 1997/2013 {
 	replace bondholder = 1 if compsec == "3"
 	replace bondholder = 1 if missing(secestx) & compsec == "2" & compsecx < secestx
 	
-	// year and quarter
-	rename qintrvyr year
-	destring year, replace
-	generate quarter_n = 1
-	
 	// consumption = nondurables + services as in V-J (2002)
 	rename fincatax inc
 	rename inc_hrs1 hrs
@@ -54,7 +49,7 @@ forvalues year = 1997/2013 {
 	generate expcq = totexpcq - houscq - healthcq - educacq
 	
 	// save clean data
-	keep cuid bondholder year quarter inc hrs exppq expcq
+	keep cuid bondholder qintrvyr qintrvmo respstat inc hrs exppq expcq finlwt21 fam_size
 	save "data/clean/cex/`year'q1.dta", replace
 }
 
@@ -100,14 +95,9 @@ forvalues year = 1996/2012 {
 		rename inc_hrs1 hrs
 		generate exppq = totexppq - houspq - healthpq - educapq
 		generate expcq = totexpcq - houscq - healthcq - educacq
-	
-		// year and quarter
-		rename qintrvyr year
-		destring year, replace
-		generate quarter_n = `q'
 		
 		// save clean data
-		keep cuid bondholder year quarter inc hrs exppq expcq
+		keep cuid bondholder qintrvyr qintrvmo respstat inc hrs exppq expcq finlwt21 fam_size
 		save "data/clean/cex/`year'q`q'.dta", replace
 	}
 }
