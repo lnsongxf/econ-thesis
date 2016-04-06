@@ -7,7 +7,7 @@ local plots      = 1
 local ljung_box  = 0
 local varsoc     = 0
 local reestimate = 1
-local source     = "cex-bondholders"
+local source     = "cex-nonbondholders"
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -91,39 +91,42 @@ else {
 
 // collapse to month-level
 replace weight = round(weight)
-collapse (mean) hrs inc fam_size exp [fw=weight], by(year month)
+collapse (mean) hrs fincbtax fincatax fam_size exp [fw=weight], by(year month)
 
 // deflate using CPI-U
-rename exp exp_n
 merge 1:1 year month using "data/clean/cpi/cpi_unadj.dta", keep(master match) nogenerate
-generate exp = exp_n / (cpi_unadj / 100)
-
-// generate total real expenditures
+foreach var in exp fincbtax fincatax {
+	rename `var' `var'_n
+	generate `var' = `var'_n / (cpi_unadj / 100)
+}
+	
+// generate per-capita real expenditures
 generate exp_pc = exp / fam_size
 
 // collapse to quarterly
 generate quarter = int((month - 1) / 3) + 1
-collapse (sum) exp_pc (mean) inc hrs, by(year quarter)
+collapse (sum) exp_pc (mean) fincbtax fincatax hrs, by(year quarter)
 drop if _n == _N // drop last quarter because inadequate expenditure data
 generate period = yq(year, quarter)
 format period %tq
 tsset period
 
-// generate income less consumption
-generate ymc = inc - exp_pc
+// generate rdi, ymc
+rename fincatax rdi
+generate ymc = fincbtax - exp_pc
 
 // label variables
 label variable hrs "Average hours worked per week"
-label variable inc "Per-capita real income after taxes"
+label variable rdi "Per-capita real disposable income"
 label variable exp_pc "Per-capita real consumption"
-label variable ymc "Per-capita real income less consumption"
+label variable ymc "Per-capita real output less consumption"
 
 // generate VAR variables
 egen mean_hrs                = mean(hrs)
 generate scaled_labor_pct    = (1/3) * hrs / mean_hrs
 generate scaled_leisure_pct  = 1 - scaled_labor_pct
 generate log_consumption     = log(exp_pc)
-generate log_rdi             = log(inc)
+generate log_rdi             = log(rdi)
 generate log_nonconsumption  = log(ymc)
 local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption ffr cci
 

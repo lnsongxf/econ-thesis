@@ -33,6 +33,11 @@ forvalues year = 1996/2013 {
 				generate interi = real(substr(string(newid), -1, .))
 			}
 			
+			capture confirm numeric variable fincbtax
+			if _rc {
+				rename fincbtxm fincbtax
+			}
+			
 			capture confirm numeric variable fincatax
 			if _rc {
 				rename fincatxm fincatax
@@ -47,7 +52,6 @@ forvalues year = 1996/2013 {
 			replace bondholder = 1 if compsec == "3"
 			replace bondholder = 1 if missing(secestx) & compsec == "2" & compsecx < secestx
 		
-			rename fincatax inc
 			rename inc_hrs1 hrs
 			rename finlwt21 weight
 
@@ -58,7 +62,7 @@ forvalues year = 1996/2013 {
 			}
 			
 			// save clean data
-			keep cuid bondholder qintrvyr qintrvmo respstat inc hrs weight fam_size interi exppq expcq
+			keep cuid bondholder qintrvyr qintrvmo respstat fincbtax fincatax hrs weight fam_size interi exppq expcq
 			save "data/clean/cex/`year'q`q'.dta", replace
 		}
 	}
