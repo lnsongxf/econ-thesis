@@ -3,11 +3,11 @@ set more off
 set matsize 11000
 
 // settings
-local plots      = 1
+local plots      = 0
 local ljung_box  = 0
 local varsoc     = 0
-local reestimate = 1
-local source     = "cex-nonbondholders"
+local reestimate = 0
+local source     = "cex-bondholders"
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -82,6 +82,18 @@ drop size_vals
 reshape long year month exp, i(cuid qintrvyr qintrvmo)
 drop _j qintrvyr qintrvmo
 
+// summary stats
+tabulate bondholder, missing
+bysort cuid: generate unique_cuid = _n == 1
+tabulate unique_cuid bondholder, missing
+drop unique_cuid
+summarize exp if bondholder
+summarize exp if !bondholder
+summarize fincatax if bondholder
+summarize fincatax if !bondholder
+summarize hrs if bondholder
+summarize hrs if !bondholder
+
 if "`source'" == "cex-bondholders" {
 	keep if bondholder
 }
@@ -97,7 +109,7 @@ collapse (mean) hrs fincbtax fincatax fam_size exp [fw=weight], by(year month)
 merge 1:1 year month using "data/clean/cpi/cpi_unadj.dta", keep(master match) nogenerate
 foreach var in exp fincbtax fincatax {
 	rename `var' `var'_n
-	generate `var' = `var'_n / (cpi_unadj / 100)
+	generate `var' = `var'_n / cpi_unadj
 }
 	
 // generate per-capita real expenditures
