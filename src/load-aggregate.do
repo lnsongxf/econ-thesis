@@ -25,7 +25,7 @@ foreach var in PCEND PCESV {
 }
 
 // read in series and save to tempfiles
-local series DFF EMRATIO PRS85006023 PCEND PCESV DPIC96 GDPC96 DNDGRA3Q086SBEA DSERRA3Q086SBEA DTB3 DNDGRD3Q086SBEA
+local series DFF EMRATIO PRS85006023 PCEND PCESV DPIC96 GDPC96 DNDGRA3Q086SBEA DSERRA3Q086SBEA DTB3
 foreach var in `series' {
 	import delimited using "data/raw/fred/`var'.csv", clear
 	tempfile `var'_dta
@@ -68,11 +68,10 @@ rename DNDGRA3Q086SBEA chain_nondurables
 rename DSERRA3Q086SBEA chain_services
 rename DTB3            observed_rate
 rename lastprice       cci
-rename DNDGRD3Q086SBEA deflator_nondurables
 
 // rescale variable units
 replace pop = pop * 1000
-foreach var in emp_rate chain_nondurables chain_services deflator_nondurables {
+foreach var in emp_rate chain_nondurables chain_services {
 	replace `var' = `var'/100
 }
 foreach var in nondurables services real_disp_income real_gdp {
@@ -114,8 +113,8 @@ generate inflation           = log(gross_inflation)
 // drop extra variables
 local timevars year month day period
 local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption ffr cci
-keep  `timevars' real_consumption_pc `vars' observed_rate deflator_nondurables
-order `timevars' real_consumption_pc `vars' observed_rate deflator_nondurables
+keep  `timevars' real_consumption_pc `vars' observed_rate
+order `timevars' real_consumption_pc `vars' observed_rate
 label variable year                "Year"
 label variable month               "Month"
 label variable day                 "Day"
@@ -129,7 +128,6 @@ label variable log_nonconsumption  "Log of real output less consumption"
 label variable ffr					       "Effective fed funds rate (net, quarterly)"
 label variable observed_rate       "90-day T-bill secondary market rate (net)"
 label variable cci                 "Log of Continuous Commodity Index"
-label variable deflator_nondurables "Implicit price deflator for nondurable goods"
 
 save "data/clean/aggregate-series-all.dta", replace
 
