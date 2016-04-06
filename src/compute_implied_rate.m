@@ -1,11 +1,11 @@
-function [ R_t_return ] = compute_implied_rate( A0, A1, Sigma, Y_t, options )
+function [ R_t_return ] = compute_implied_rate( A0, A1, Sigma, Y_t, results, irf )
 
 % settings
-real = options.real;
-nu = options.nu;
-phi = options.phi;
-beta = 0.9926; % discount rate
-alpha = 2; % coefficient of relative risk aversion
+beta  = 0.9926;        % discount rate
+alpha = results.alpha; % coefficient of relative risk aversion
+phi   = results.phi;   % habit persistence parameter
+nu    = results.nu;    % consumption weight in nonseparable consumption/leisure
+real  = results.real;
 
 % get data series
 c_t = Y_t(1, :); % log consumption
@@ -76,7 +76,7 @@ R_t = 1 ./ R_t_inv; % quarterly gross rate
 R_t_ann = R_t .^ 4; % annualized gross rate
 R_t_scaled = log(R_t_ann) .* 100;
 
-if options.irf == 1
+if irf == 1
     R_t_return = -log(R_t_inv);
 else
     R_t_return = R_t_scaled;

@@ -10,4 +10,3 @@ A1(abs(A1) < 1e-9) = [0];
 Sigma(abs(Sigma) < 1e-9) = [0];
 
 end
-
