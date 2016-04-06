@@ -1,0 +1,46 @@
+\documentclass{thesis}
+\includeonly{}
+
+\begin{document}
+
+\pagenumbering{roman}
+\title{Limited Asset Market Participation and the Euler Equation Implied Interest Rate}
+\author{Pearl Li}
+\maketitle \newpage
+\tableofcontents \newpage
+
+
+
+\pagenumbering{arabic}
+\section{Introduction}
+
+\section{Literature}
+\cite{canzoneri07}
+
+\section{Model and Empirical Analysis}
+We start with the standard household problem from the neoclassical growth model. In period $t$, the representative consumer has preferences $$U_t = \E_t \sum_{s=t}^\infty \beta^{s-t} u(C_s, C_{s-1}, L_s)$$
+
+ where $\beta$ is her discount rate, $C_s$ and $C_{s-1}$ are real consumption today and yesterday, and $L_s$ is fraction of leisure hours. Each period, she receives labor income with nominal wage $W_s$ and chooses consumption and nominal holdings $B_s$ of a risk-free one-period bond. The price of the consumption good is $P_s$. This gives the following period budget constraint in nominal units: $$P_s C_s + (1 + i_{s-1})B_{s-1} \leq W_s(1 - L_s) + B_s$$
+Taking first-order conditions gives the equilibrium nominal interest rate by $$\frac{1}{1 + i_t} = \E_t \bracket{ \frac{\d U_t / \d C_{t+1}}{\d U_t / \d C_t} \frac{P_t}{P_{t+1}} }$$
+In real units, the period budget constraint is $$C_s + (1 + r_{s-1}) \frac{B_{s-1}}{P_{s-1}} \leq \frac{W_s}{P_s}(1 - L_s) + \frac{B_s}{P_s}$$ and the real interest rate satisfies $$\frac{1}{1 + r_t} = \beta \E_t \bracket{ \frac{\d U_t / \d C_{t+1}}{\d U_t / \d C_t} }$$
+
+
+\section{Aggregate Baseline}
+\subsection{Data}
+\subsection{Results}
+
+\section{Limited Asset Market Participation}
+\subsection{Data}
+\subsection{Results}
+
+\section{Conclusion}
+
+\section{Appendix}
+
+\newpage
+\let\Section\section 
+\def\section*#1{\Section{#1}}
+\bibliographystyle{../refs/econ}
+\bibliography{../refs/refs}
+
+\end{document}
