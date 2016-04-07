@@ -1,16 +1,16 @@
 \documentclass{beamer}
 \usetheme{Boadilla}
 \usepackage{bibentry}
-\usepackage{cmbright}
+%\usepackage{cmbright}
 \usepackage{natbib}
 \setbeamertemplate{itemize items}[circle]
 \setbeamertemplate{enumerate items}[default]
 
-\def\E{\text{E}}
-\def\Var{\text{Var}}
+\def\E{\mathbb{E}}
+\def\Var{\mathrm{Var}}
 
-\title[Euler Equation]{\textbf{Limited Asset Market Participation} and the Euler Equation Implied Rate}
-\author[Li]{Pearl Li}
+\title[Implied Rates]{\textbf{Limited Asset Market Participation} and the Euler Equation Implied Rate}
+\author{Pearl Li}
 \date{April 6, 2016}
 
 \begin{document}
@@ -130,7 +130,7 @@ Need much lower risk aversion to accommodate these consumption fluctuations...
 \begin{frame}{CRRA Implied Rates}
 \begin{itemize}
 \item Implied rates computed only from CRRA utility (no habit formation or nonseparability) $$u(C_t) = \frac{C_t^{1-\alpha}}{1-\alpha}$$
-\item Euler equation $$\frac{1}{1+r_t} = \beta \frac{E_t u'(C_{t+1})}{u'(C_t)} = \beta \left( \frac{\E_t C_{t+1}}{C_t} \right)^{-\alpha}$$
+\item Euler equation $$\frac{1}{1+r_t} = \beta \frac{\E_t u'(C_{t+1})}{u'(C_t)} = \beta \left( \frac{\E_t C_{t+1}}{C_t} \right)^{-\alpha}$$
 \item Coefficient of relative risk aversion $\alpha$
 \end{itemize}
 \end{frame}
