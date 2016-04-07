@@ -3,11 +3,11 @@ set more off
 set matsize 11000
 
 // settings
-local plots      = 0
+local plots      = 1
 local ljung_box  = 0
 local varsoc     = 0
-local reestimate = 0
-local source     = "cex-bondholders"
+local reestimate = 1
+local source     = "cex-nonbondholders"
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
@@ -86,19 +86,29 @@ drop _j qintrvyr qintrvmo
 tabulate bondholder, missing
 bysort cuid: generate unique_cuid = _n == 1
 tabulate unique_cuid bondholder, missing
-drop unique_cuid
-summarize exp if bondholder
-summarize exp if !bondholder
-summarize fincatax if bondholder
-summarize fincatax if !bondholder
-summarize hrs if bondholder
-summarize hrs if !bondholder
+count if bondholder
+local sample_size = r(N)
 
 if "`source'" == "cex-bondholders" {
 	keep if bondholder
+	
+	summarize exp
+	summarize fincatax
+	summarize hrs
+}
+else if "`source'" == "cex-nonbondholders" {
+	keep if !bondholder
+	set seed 0
+	sample `sample_size', count
+	
+	tabulate unique_cuid
+	summarize exp
+	summarize fincatax
+	summarize hrs
 }
 else {
-	keep if !bondholder
+	display as error "Source was not CEX bondholders or nonbondholders"
+	error 7
 }
 
 // collapse to month-level
@@ -143,7 +153,7 @@ generate log_nonconsumption  = log(ymc)
 local vars log_consumption inflation scaled_leisure_pct log_rdi log_nonconsumption ffr cci
 
 // merge aggregate VAR variables
-merge 1:1 period using "data/clean/aggregate-series-all.dta", keepusing(inflation ffr cci) keep(master match) nogenerate
+merge 1:1 period using "data/clean/nipa-series-all.dta", keepusing(inflation ffr cci) keep(master match) nogenerate
 
 // seasonally adjust log consumption
 regress log_consumption i.quarter
