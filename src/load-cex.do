@@ -7,7 +7,7 @@ local plots      = 1
 local ljung_box  = 0
 local varsoc     = 0
 local reestimate = 1
-local source     = "cex-nonbondholders"
+local source     = "`1'"
 
 local p = 4 // number of lags
 local k = 7 // number of covariates
