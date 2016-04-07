@@ -3,13 +3,13 @@ alpha_d = 2;
 phi_d   = 0;
 nu_d    = 1;
 
-% aggregate
-results1 = implied_rates('aggregate', 2, phi_d, nu_d);   % SEP
-results2 = implied_rates('aggregate', 2, 0.8,   nu_d);   % SEP + HP
-results3 = implied_rates('aggregate', 2, phi_d, 0.34);   % NSEP
-results4 = implied_rates('aggregate', 2, 0.8,   0.34);   % NSEP + HP
-aggregate_results = [results1, results2, results3, results4];
-writetable(struct2table(aggregate_results), 'results/implied-rate-summary/aggregate.csv');
+% NIPA
+results1 = implied_rates('nipa', 2, phi_d, nu_d);   % SEP
+results2 = implied_rates('nipa', 2, 0.8,   nu_d);   % SEP + HP
+results3 = implied_rates('nipa', 2, phi_d, 0.34);   % NSEP
+results4 = implied_rates('nipa', 2, 0.8,   0.34);   % NSEP + HP
+nipa_results = [results1, results2, results3, results4];
+writetable(struct2table(nipa_results), 'results/implied-rate-summary/nipa.csv');
 
 % CEX bondholders
 results5 = implied_rates('cex-bondholders', 2,   phi_d, nu_d);

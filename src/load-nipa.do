@@ -129,13 +129,13 @@ label variable ffr					       "Effective fed funds rate (net, quarterly)"
 label variable observed_rate       "90-day T-bill secondary market rate (net)"
 label variable cci                 "Log of Continuous Commodity Index"
 
-save "data/clean/aggregate-series-all.dta", replace
+save "data/clean/nipa-series-all.dta", replace
 
 // plots
 if `plots' == 1 {
 	foreach var in log_consumption inflation scaled_leisure_pct ffr {
 		tsline `var'
-		graph export "figs/series/aggregate/`var'.png", replace
+		graph export "figs/series/nipa/`var'.png", replace
 	}
 }
 
@@ -169,11 +169,11 @@ if `reestimate' == 1 {
 	varstable, amat(A1) // companion matrix
 	matrix Sigma = e(Sigma) // covariance of error term
 
-	mat2txt2 A0 using "data/ests/aggregate/var/A0.csv", comma clean replace
-	mat2txt2 A1 using "data/ests/aggregate/var/A1.csv", comma clean replace
-	mat2txt2 Sigma using "data/ests/aggregate/var/Sigma.csv", comma clean replace
+	mat2txt2 A0 using "data/ests/nipa/var/A0.csv", comma clean replace
+	mat2txt2 A1 using "data/ests/nipa/var/A1.csv", comma clean replace
+	mat2txt2 Sigma using "data/ests/nipa/var/Sigma.csv", comma clean replace
 
 	// export variables and lags to csv
 	keep year month day `vars' `lagvars'
-	export delimited "data/clean/aggregate-series.csv", replace
+	export delimited "data/clean/nipa-series.csv", replace
 }
