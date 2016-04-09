@@ -1,3 +1,3 @@
-# The Euler Equation Implied Rate Under Heterogeneous Preferences
+# Limited Asset Market Participation and the Euler Equation Implied Rate
 
 Senior thesis in economics.
