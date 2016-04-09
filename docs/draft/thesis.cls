@@ -45,4 +45,6 @@
 
 % General math commands
 \def\d{\partial}
-\def\E{\mathbb{E}}                          % Natural numbers
+\def\E{\mathbb{E}}
+\def\Var{\mathrm{Var}}
+\def\Cov{\mathrm{Cov}}

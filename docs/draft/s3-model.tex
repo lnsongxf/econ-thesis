@@ -1,0 +1,76 @@
+\section{Model}
+We start with the standard household problem from the neoclassical growth model. In period $t$, the representative consumer has preferences $$U_t = \E_t \sum_{s=t}^\infty \beta^{s-t} u(C_s, C_{s-1}, L_s)$$ where $\beta$ is her discount rate, $C_s$ and $C_{s-1}$ are real consumption today and yesterday, and $L_s$ is fraction of leisure hours. Each period, she receives labor income with nominal wage $W_s$ and chooses consumption and nominal holdings $B_s$ of a risk-free one-period bond. The price of the consumption good is $P_s$. This gives the following period budget constraint in nominal units: $$P_s C_s + (1 + i_{s-1})B_{s-1} \leq W_s(1 - L_s) + B_s$$
+Taking first-order conditions gives the equilibrium nominal interest rate by
+\begin{equation}
+\label{nominal-euler}
+\frac{1}{1 + i_t} = \E_t \bracket{ \frac{\d U_t / \d C_{t+1}}{\d U_t / \d C_t} \frac{P_t}{P_{t+1}} } = \E_t \bracket{ \frac{\d U_t / \d C_{t+1}}{\d U_t / \d C_t} \frac{1}{\Pi_{t+1}} }
+\end{equation}
+In real units, the period budget constraint is $$C_s + (1 + r_{s-1}) \frac{B_{s-1}}{P_{s-1}} \leq \frac{W_s}{P_s}(1 - L_s) + \frac{B_s}{P_s}$$ and the real interest rate satisfies
+\begin{equation}
+\label{real-euler}
+\frac{1}{1 + r_t} = \beta \E_t \bracket{ \frac{\d U_t / \d C_{t+1}}{\d U_t / \d C_t} }
+\end{equation}
+
+To compute the interest rates implied by the Euler equations \eqref{nominal-euler} and \eqref{real-euler} requires a few assumptions. We assume that real consumption $C_t$ and gross inflation $\Pi_t$ are conditionally lognormal. We use the functional form for utility used by \cite{collard11}:
+\begin{equation}
+\label{collard-utility}
+u(C_t, C_{t-1}, L_t) = \frac{[(C_t/C_{t-1}^\phi)^\nu L_t^{1-\nu}]^{1-\alpha}}{1-\alpha}
+\end{equation}
+where $\alpha$ is the coefficient of relative risk aversion, $\phi$ is the habit persistence parameter, and $\nu$ specifies the relative weight of consumption compared to leisure. When $\phi = 0$ (no habit persistence) and $\nu = 1$ (utility is separable in consumption and leisure), \eqref{collard-utility} reduces to the case of CRRA utility: $$u(C_t) = \frac{C_t^{1-\alpha}}{1-\alpha}$$
+We'll derive an expression for the implied interest rate in terms of conditional expectations and variances for the CRRA case only and leave the more general case to \cite{collard11}. We denote logs of variables using lowercase letters, i.e. $c_t := \log C_t$ and $\pi_t := \log \Pi_t$ (approximately net inflation). From \eqref{nominal-euler}, the nominal interest rate under CRRA preferences is given by:
+\begin{align*}
+\frac{1}{1 + i_t} &= \E_t \bracket{ \paren{\frac{C_{t+1}}{C_t}}^{-\alpha} \Pi_{t+1}^{-1} } \\
+  &= \beta \E_t \exp \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } \\
+  &= \beta \exp \paren{ \E_t \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } + \frac{1}{2} \Var_t \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } } \\
+  &= \beta \exp \paren{ -\alpha \bracket{ \E_t c_{t+1} - c_t } - \E_t \pi_{t+1}  + \frac{\alpha^2}{2} \Var_t c_{t+1} + \frac{1}{2} \Var_t \pi_{t+1} + \Cov_t(c_{t+1}, \pi_{t+1}) }
+\end{align*}
+where the third equality follows from our assumption of conditional lognormality. The expression for the real interest rate is the same, but without the inflation terms: $$\frac{1}{1 + r_t} = \beta \exp \paren{ -\alpha \bracket{ \E_t c_{t+1} - c_t } + \frac{\alpha^2}{2} \Var_t c_{t+1} }$$
+
+From \cite{collard11}, the equivalent expression for the implied nominal rate under the more general preferences \eqref{collard-utility} is $$\frac{1}{1 + i_t} = \beta \frac{ \exp(\chi_{1t}) - \beta \phi \exp(\chi_{2t}) }{ \exp(\chi_{3t}) - \beta \phi \exp(\chi_{4t}) }$$ where
+\begin{align*}
+\chi_{1t} &= (\nu(1-\sigma)-1) \E_t c_{t+1} - \phi \nu(1-\sigma) c_t + (1-\nu)(1-\sigma) \E_t l_{t+1} - \E_t \pi_{t+1} \\
+  &\qquad + \frac{(\nu(1-\sigma)-1)^2}{2} \Var_t c_{t+1} + \frac{((1-\nu)(1-\sigma))^2}{2} \Var_t l_{t+1} + \frac{\Var_t \pi_{t+1}}{2} \\
+  &\qquad - (1-\nu)(1-\sigma) \Cov_t(c_{t+1}, l_{t+1}) + (\nu(1-\sigma)-1)(1-\nu)(1-\sigma) \Cov_t(\pi_{t+1}, l_{t+1}) \\
+  &\qquad - (\nu(1-\sigma)-1) \Cov(c_{t+1}, \pi_{t+1}) \\
+\chi_{2t} &= \nu(1-\sigma) \E_t c_{t+2} - (\phi\nu(1-\sigma)+1) \E_t c_{t+1} + (1-\nu)(1-\sigma) \E_t l_{t+2} - \E_t \pi_{t+1} \\
+  &\qquad + \frac{(\nu(1-\sigma))^2}{2} \Var_t c_{t+2} + \frac{(\phi\nu(1-\sigma)+1)^2}{2} \Var_t c_{t+1} + \frac{((1-\nu)(1-\sigma))^2}{2} \Var_t l_{t+1} + \frac{\Var_t \pi_{t+1}}{2} \\
+  &\qquad - \nu(1-\sigma) \Cov_t(c_{t+2}, \pi_{t+2}) + (\phi\nu(1-\sigma)+1) \Cov_t(c_{t+1}, \pi_{t+1}) - (1-\nu)(1-\sigma) \Cov_t(\pi_{t+1}, l_{t+2}) \\
+  &\qquad - \nu(1-\sigma)(\phi\nu(1-\sigma)+1) \Cov_t(c_{t+1}, c_{t+2}) + \nu(1-\nu)(1-\sigma)^2 \Cov_t(c_{t+2}, l_{t+2}) \\
+  &\qquad - (\phi\nu(1-\sigma)+1)(1-\nu)(1-\sigma) \Cov_t(c_{t+1}, l_{t+2}) \\
+\chi_{3t} &= (\nu(1-\sigma)-1)c_t - \phi\nu(1-\sigma)c_{t-1} + (1-\nu)(1-\sigma)l_t \\
+\chi_{4t} &= \nu(1-\sigma) \E_t c_{t+1} - (\phi\nu(1-\sigma)+1)c_t + (1-\nu)(1-\sigma) \E_t l_{t+1} + \frac{(\nu(1-\sigma))^2}{2} \Var_t c_{t+1} \\
+  &\qquad + \frac{((1-\nu)(1-\sigma))^2}{2} \Var_t l_{t+1} + \nu(1-\nu)(1-\sigma)^2 \Cov_t(c_{t+1}, l_{t+1})
+\end{align*}
+
+Following \cite{canzoneri07}, to derive estimates for these conditional moments, we assume that the dynamics of consumption, inflation, and labor can be modeled as the VAR(4) process (written below in companion form)
+\begin{equation}
+\label{var-companion}
+Y_{t+1} = A_0 + A_1 Y_t + u_t,
+\end{equation}
+$$u_t \overset{\text{iid}}{\sim} N(0, \Sigma)$$
+where
+\begin{align*}
+Y_t &= [y_t, y_{t-1}, y_{t-2}, y_{t-3}]' \\
+y_t &= [c_t, \pi_t, l_t, rdi_t, ymc_t, ffr_t, cci_t]'
+\end{align*}
+The components of $y_t$ are log of real consumption, log of gross inflation, leisure fraction (which we'll define more explicitly later), log of real disposable income, log of output less consumption, log of the gross effective federal funds rate, and log of the Thomson Reuters Equal Weight Continuous Commodity Index \footnote{The CCI is the ``old'' Thomson Reuters/Jeffries CRB Index, calculated using the same methodology as the CRB Index before it underwent weighting and rebalance changes in 1995.}.
+
+After estimating $A_0$, $A_1$, and $\Sigma$, we can compute:
+
+\begin{minipage}[c]{0.5\textwidth}
+\begin{align*}
+\E_t Y_{t+1} &= A_0 + A_1 Y_t \\
+\E_t Y_{t+2} &= A_0 + A_1 A_0 + A_1^2 Y_t
+\end{align*}
+\end{minipage}
+\begin{minipage}[c]{0.5\textwidth}
+\begin{align*}
+\Var_t Y_{t+1} &= \Sigma \\
+\Var_t Y_{t+2} &= A_1 \Sigma A_1' + \Sigma \\
+\Cov_t(Y_{t+1}, Y_{t+2}) &= \Sigma A_1'
+\end{align*}
+\end{minipage} \\
+
+The conditional moments are then the respective $(i, j)$ components of these matrices. For example, $\Cov_t(c_{t+1}, l_{t+2})$ is the $(1, 3)$ component of $\Cov_t(Y_{t+1}, Y_{t+2})$.
+
+Now, given data with which to estimate the vector autoregression \eqref{var-companion}, we have everything we need to compute the interest rates implied by the Euler equation.
