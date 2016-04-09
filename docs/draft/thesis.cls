@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{caption}
+\usepackage{color}
 \usepackage{float}
 \usepackage[bottom]{footmisc}               % Footnote at page bottom
 \usepackage{graphicx}                       % Graphics support
@@ -15,13 +16,6 @@
 % Citations
 \usepackage{bibentry}
 \usepackage{natbib}
-
-% Environments
-\newenvironment{todo}{ 
-  \center
-  \bfseries
-  \text{TODO:}
-}
 
 % Switch \epsilon and \varepsilon
 \let\oldepsilon\epsilon

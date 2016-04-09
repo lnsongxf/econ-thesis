@@ -1,0 +1,57 @@
+\section{Data}
+
+\subsection{Aggregate-Level}
+In the aggregate-level analysis, the endogenous variables making up $y_t$ in the VAR model are constructed mostly according to \cite{collard11}. Except where mentioned, all the raw time series used are obtained from the St. Louis Fed's Federal Reserve Economic Data (FRED), with variable names in parentheses. Data are at the quarterly level and seasonally adjusted when appropriate, spanning 222 quarters from 1960.I to 2015.II, inclusive.. Real dollar values are in 2009 dollars. All lowercase variables in the vector $y_t$ denote the natural log of the respective capitalized variable below \textit{except the leisure fraction $l_t$}, which is described explicitly below.
+
+\textit{Per capita real consumption} $C_t$: Aggregate real consumption is defined as the sum of the chain quantity indices (2009 = 100) for personal consumption expenditures on nondurable goods (\texttt{DNDGRA3Q086SBEA}) and services (\texttt{DSERRA3Q086SBEA}), all multiplied by the sum of nominal nondurables (\texttt{PCEND}) and services (\texttt{PCESV}) consumption in 2009. This amount is divided by the civilian noninstitutional population (\texttt{CNP16OV}) to get per capita real consumption.
+
+\textit{Gross quarterly inflation} $\Pi_t$: In each quarter, the implicit price deflator $P_t$ is calculated by dividing aggregate nominal consumption (\texttt{PCEND + PCESV}) by aggregate real consumption (described above). Then gross quarterly inflation is defined as the growth rate of the deflator: $\Pi_t = \frac{P_t}{P_{t-1}}$.
+
+\textit{Leisure fraction} $l_t$: Labor fraction $h_t$ is defined as the average weekly hours worked in the nonfarm business sector (\texttt{PRS85006023}), multiplied by the civilian employment-to-population ratio (\texttt{EMRATIO}) and then rescaled so that the mean over all quarters was $\frac{1}{3}$. Then the leisure fraction is given by $l_t = 1 - h_t$.
+
+\textit{Per capita real disposable income} $RDI_t$: This is computed by dividing real disposable income (\texttt{DPIC96}) by the civilian non-institutional population.
+
+\textit{Per capita real output less consumption} $YMC_t$: Defined as real gross domestic product (\texttt{GDPC96}) minus aggregate real consumption, again divided by the civilian noninstitutional population.
+
+\textit{Gross quarterly effective federal funds rate} $FFR_t$: This is computed by raising the gross annualized rate (\texttt{DFF}) to the one-fourth power.
+
+\textit{Continuous Commodity Index} $CCI_t$: I use the CCI ending price on the first day of each quarter, obtained from Bloomberg. As mentioned, the CCI is the continuation of the CRB Index used by \cite{canzoneri07} and \cite{collard11}. What is called the CRB Index today is calculated slightly differently and exists only since 1995.
+
+
+
+\subsection{Household-Level}
+For the comparison of bondholders to nonbondholders, I reuse the inflation, federal funds rate, and CCI variables constructed in the previous section. I generate separate time series for the other four endogenous variables for both bondholders and nonbondholders by aggregating household-level data from the Consumer Expenditure Survey from 1996.I to 2012.IV (68 quarters).
+
+The CEX is a rotating panel of representative ``consumer units''\footnote{I refer to these consumer units informally as households, though the CEX does actually distinguish between the two terms, allowing for multiple consumer units to dwell in the same physical household. However, it is the consumer unit-level at which financial decisions are made and reported to the survey-takers, and hence at which the analysis in this paper is carried out.} in the United States, which are interviewed each quarter for five consecutive quarters. Each observation is a household-quarter. The first interview is for practice, and is not included in the reported survey data. Each quarter, 20 percent of the households rotate out of the survey after their fifth interview, and a new 20 percent rotate in. Households report their expenditures in very detailed categories each quarter. Demographic and income data are collected in the second and fifth interviews, and asset holdings information is collected only in the fifth interview\footnote{The CEX in fact consists of two separate surveys: the Interview Survey, which I have just described, and the Diary Survey, in which households report weekly expenditures on frequently purchased items. I use the Interview Survey exclusively.}.
+
+% TODO: how many discarded?
+After discarding observations which are flagged by the CEX as being incomplete income respondents (\texttt{RESPSTAT}\footnote{The variable names in the remainder of this section refer to CEX variables unless otherwise specified.} $= 2$), I generate the following (nominal) observation-level variables:
+
+\textit{Bondholder status:} I determine whether or or not to label each household a bondholder using the criteria set forth in \cite{vissing02}. In the fifth interview, the CEX asks each household to estimate its current holdings in a number of asset categories, as well as how those holdings have changed in the preceding year (four quarters). I use a positive response in the asset categories ``U.S. Savings Bonds'' and ``stocks, mutual funds, private bonds, government bonds, or Treasury notes'' to determine bondholder status, despite that this definition likely creates some false positives, such as households which hold stocks but not bonds. It is difficult to achieve a more complete separation of households.
+
+Either all observations belonging to a particular household are labeled bondholder observations or none of them are. I do not allow for a household's bondholder status to change between interviews. A household is defined to be a bondholder if it had positive holdings of at least one of the two asset categories one year before the asset holdings questions are asked in the fifth interview (i.e. at the time of the first interview) --- specifically, if one of the following holds:
+\begin{enumerate}
+\item The household reports holding the same amount of the asset as a year ago (\texttt{COMPBND} or \texttt{COMPSEC} $= 1$), and reports a positive current holdings amount \texttt{USBNDX} or \texttt{SECESTX} $> 0$)
+\item The household reports lower holdings of the asset than a year ago (\texttt{COMPBND} or \texttt{COMPSEC} $= 2$)
+\item The household reports an increase in holdings in the past year (\texttt{COMPBND} or \texttt{COMPSEC} $= 3$) by an amount less than the current holdings (\texttt{COMPBNDX} $<$ \texttt{USBNDX} or \texttt{COMPSECX} $<$ \texttt{SECESTX})
+\end{enumerate}
+
+\textit{Consumption:} Following \cite{heathcote10}, I define consumption of nondurable goods and services as the sum of the following expenditure categories: food and beverages (\texttt{FOOD} $+$ \texttt{ALCBEV}), clothing (\texttt{APPAR}), gasoline (\texttt{GASMO}), household operation (\texttt{HOUSOP}), public transportation (\texttt{PUBTRA}), medical care excluding health insurance (\texttt{HEALTH} $-$ \texttt{HEALTHIN}), recreation (\texttt{ENTERT}), tobacco (\texttt{TOBACC}), and education (\texttt{READ} $+$ \texttt{EDUCA}).
+
+\textit{Hours worked:} I use the weekly hours worked by the household's reference person (\texttt{INC\_HRS1}). The reference person is the first person mentioned by the survey respondent when asked to ``Start with the name of the person or one of the persons who owns or rents the home.''
+
+\textit{Disposable income:}  I use after-tax income (\texttt{FINCATAX}), as in \cite{krueger15}.
+
+\textit{Output less consumption:} Defined as before-tax income (\texttt{FINCBTAX}) minus consumption (defined above).
+
+Below are summary statistics for bondholders and nonbondholders using the variables defined above. Since bondholders represent a fairly small fraction of the total sample, I include all bondholder observations in the bondholder aggregate but take a random sample of the nonbondholder observations in order to equalize sample size.
+
+\begin{center}
+\textbf{\color{red}{SUMMARY STATS TK}}
+\end{center}
+
+Consumption, disposable income, and output less consumption are each deflated by the unadjusted Consumer Price Index for nondurables for urban consumers (\texttt{CUUR0000SAN} in FRED) as in \cite{vissing02}, rescaled to 2009 dollars to correspond with the aggregate-level data. The expenditure categories included in consumption were chosen to allow for the possibility of deflating each category by its own CPI (for example, \texttt{CPIFABNS} from FRED for food and beverages). However, the result of doing so was found to differ only negligibly from using a single CPI.
+
+The CEX provides population weights for each household, which are calibrated so that summing the population weights in a given quarter approximates the number of households in the United States that quarter, while taking the weighted sum of the number of household members approximates the total population. I take the weighted mean of hours worked for each quarter and use it to generate labor fraction $l_t$ as in the previous section. For each of consumption, disposable income, and output less consumption, I take the weighted sum each quarter and divide it by the population to get per capita variables $C_t$, $RDI_t$, and $YMC_t$.
+
+Finally, I seasonally adjust log consumption $c_t$ by regressing it on indicators of the quarters and subtracting off the non-first quarter coefficients.
