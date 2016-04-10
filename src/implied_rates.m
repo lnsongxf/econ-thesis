@@ -9,7 +9,7 @@ function [ results ] = implied_rates( source, alpha, phi, nu )
 data = csvread(['data/clean/', source, '-series.csv'], 4, 0);
 date = transpose(datetime(data(:, 1:3)));
 Y_t = transpose(data(:, 4:31)); % [ y_t, ..., y_{t-3} ]'
-[kp, T] = size(Y_t); % number of variables plus lags, number of periods
+[kp, ~] = size(Y_t); % number of variables plus lags, number of periods
 p = 4; % number of lags
 k = kp/p; % number of covariates
 
@@ -26,9 +26,11 @@ assert(all(size(Sigma) == [kp, kp]));
 %% SET UP
 results = struct('source', {}, 'alpha', {}, 'phi', {}, 'nu', {}, 'real', {}, ...
     'mean', {}, 'std', {}, 'min', {}, 'max', {}, ...
-    'corr', {}, 'coef_rates', {}, 'se_rates', {}, ...
-    'coef_spread', {}, 'se_spread', {});
+    'corr', {}, 'coef_spread', {}, 'se_spread', {}, ...
+    'corr_collard', {}, 'coef_spread_collard', {}, 'se_spread_collard', {});
 
+% Collard & Dellas sample: 1960:I to 2006:IV
+collard = 1:188;
 
 %% NOMINAL RATES
 % set parameters
@@ -52,17 +54,24 @@ results(1).max = max(I_t_scaled);
 plot_implied_ffr_scatter(I_t_scaled, FFR_t_scaled, results(1));
 corr_matrix = corrcoef(I_t_scaled, FFR_t_scaled);
 results(1).corr = corr_matrix(1, 2);
-model = fitlm(transpose(I_t_scaled), transpose(FFR_t_scaled));
-results(1).coef_rates = model.Coefficients.Estimate(2); % FFR coefficient
-results(1).se_rates = model.Coefficients.SE(2); % FFR standard error
 
 % regress spread on FFR
 spread_t = I_t_scaled - FFR_t_scaled;
 spread_lags_t = transpose(lagmatrix(spread_t, 1:4));
 FFR_spread_lags_t = [FFR_t_scaled; spread_lags_t];
+
 model = fitlm(transpose(FFR_spread_lags_t), spread_t);
 results(1).coef_spread = model.Coefficients.Estimate(2); % FFR coefficient
 results(1).se_spread = model.Coefficients.SE(2); % FFR standard error
+
+if strcmp(source, 'nipa')
+    corr_matrix = corrcoef(I_t_scaled(collard), FFR_t_scaled(collard));
+    results(1).corr_collard = corr_matrix(1, 2);
+
+    model = fitlm(transpose(FFR_spread_lags_t(:, collard)), spread_t(collard));
+    results(1).coef_spread_collard = model.Coefficients.Estimate(2);
+    results(1).se_spread_collard = model.Coefficients.SE(2);
+end
 
 
 %% REAL RATES
@@ -87,16 +96,23 @@ results(2).max = max(R_t_scaled);
 plot_implied_ffr_scatter(I_t_scaled, FFR_t_scaled, results(1));
 corr_matrix = corrcoef(R_t_scaled, FFR_real_t_scaled);
 results(2).corr = corr_matrix(1, 2);
-model = fitlm(transpose(R_t_scaled), transpose(FFR_real_t_scaled));
-results(2).coef_rates = model.Coefficients.Estimate(2); % FFR coefficient
-results(2).se_rates = model.Coefficients.SE(2); % FFR standard error
 
 % regress spread on FFR
 spread_t = R_t_scaled - FFR_real_t_scaled;
 spread_lags_t = transpose(lagmatrix(spread_t, 1:4));
 FFR_spread_lags_t = [FFR_t_scaled; spread_lags_t];
+
 model = fitlm(transpose(FFR_spread_lags_t), spread_t);
 results(2).coef_spread = model.Coefficients.Estimate(2); % FFR coefficient
 results(2).se_spread = model.Coefficients.SE(2); % FFR standard error
+
+if strcmp(source, 'nipa')
+    corr_matrix = corrcoef(R_t_scaled(collard), FFR_real_t_scaled(collard));
+    results(2).corr_collard = corr_matrix(1, 2);
+
+    model = fitlm(transpose(FFR_spread_lags_t(:, collard)), spread_t(collard));
+    results(2).coef_spread_collard = model.Coefficients.Estimate(2);
+    results(2).se_spread_collard = model.Coefficients.SE(2);
+end
 
 end
