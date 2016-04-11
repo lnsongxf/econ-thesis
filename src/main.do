@@ -3,7 +3,8 @@ set more off
 set matsize 11000
 
 // NIPA
-do load-nipa.do
+do load-nipa.do nipa
+do load-nipa.do nipa-collard
 
 // CEX
 do clean-cex.do

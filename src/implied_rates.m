@@ -1,6 +1,6 @@
-function [ results ] = implied_rates( source, alpha, phi, nu )
+function [ results, data ] = implied_rates( source, alpha, phi, nu )
 % ARGUMENT  DESCRIPTION
-% source    one of 'aggregate', 'cex-bondholders', or 'cex-nonbondholders'
+% source    one of 'nipa', 'nipa-collard', 'cex-bondholders', or 'cex-nonbondholders'
 % alpha     risk aversion coefficient
 % phi       habit persistence parameter
 % nu        consumption weight in nonseparable consumption/leisure
@@ -24,13 +24,14 @@ assert(all(size(Sigma) == [kp, kp]));
 
 
 %% SET UP
+data = struct('source', {}, 'alpha', {}, 'phi', {}, 'nu', {}, 'real', {}, ...
+    'mean', {}, 'std', {}, 'min', {}, 'max', {}, ...
+    'corr', {}, 'coef_spread', {}, 'se_spread', {});
+
 results = struct('source', {}, 'alpha', {}, 'phi', {}, 'nu', {}, 'real', {}, ...
     'mean', {}, 'std', {}, 'min', {}, 'max', {}, ...
-    'corr', {}, 'coef_spread', {}, 'se_spread', {}, ...
-    'corr_collard', {}, 'coef_spread_collard', {}, 'se_spread_collard', {});
+    'corr', {}, 'coef_spread', {}, 'se_spread', {});
 
-% Collard & Dellas sample: 1960:I to 2006:IV
-collard = 1:188;
 
 %% NOMINAL RATES
 % set parameters
@@ -39,6 +40,13 @@ results(1).alpha  = alpha;
 results(1).phi    = phi;
 results(1).nu     = nu;
 results(1).real   = 0;
+
+data(1).source = 'data';
+data(1).real = 0;
+data(1).mean = mean(FFR_t_scaled);
+data(1).std = std(FFR_t_scaled);
+data(1).min = min(FFR_t_scaled);
+data(1).max = max(FFR_t_scaled);
 
 % compute implied rates and plot
 I_t_scaled = compute_implied_rate(A0, A1, Sigma, Y_t, results(1), 0);
@@ -64,15 +72,6 @@ model = fitlm(transpose(FFR_spread_lags_t), spread_t);
 results(1).coef_spread = model.Coefficients.Estimate(2); % FFR coefficient
 results(1).se_spread = model.Coefficients.SE(2); % FFR standard error
 
-if strcmp(source, 'nipa')
-    corr_matrix = corrcoef(I_t_scaled(collard), FFR_t_scaled(collard));
-    results(1).corr_collard = corr_matrix(1, 2);
-
-    model = fitlm(transpose(FFR_spread_lags_t(:, collard)), spread_t(collard));
-    results(1).coef_spread_collard = model.Coefficients.Estimate(2);
-    results(1).se_spread_collard = model.Coefficients.SE(2);
-end
-
 
 %% REAL RATES
 % set parameters
@@ -81,6 +80,13 @@ results(2).alpha  = alpha;
 results(2).phi    = phi;
 results(2).nu     = nu;
 results(2).real   = 1;
+
+data(2).source = 'data';
+data(2).real = 1;
+data(2).mean = mean(FFR_real_t_scaled);
+data(2).std = std(FFR_real_t_scaled);
+data(2).min = min(FFR_real_t_scaled);
+data(2).max = max(FFR_real_t_scaled);
 
 % compute implied rates and plot
 R_t_scaled = compute_implied_rate(A0, A1, Sigma, Y_t, results(2), 0);
@@ -105,14 +111,5 @@ FFR_spread_lags_t = [FFR_t_scaled; spread_lags_t];
 model = fitlm(transpose(FFR_spread_lags_t), spread_t);
 results(2).coef_spread = model.Coefficients.Estimate(2); % FFR coefficient
 results(2).se_spread = model.Coefficients.SE(2); % FFR standard error
-
-if strcmp(source, 'nipa')
-    corr_matrix = corrcoef(R_t_scaled(collard), FFR_real_t_scaled(collard));
-    results(2).corr_collard = corr_matrix(1, 2);
-
-    model = fitlm(transpose(FFR_spread_lags_t(:, collard)), spread_t(collard));
-    results(2).coef_spread_collard = model.Coefficients.Estimate(2);
-    results(2).se_spread_collard = model.Coefficients.SE(2);
-end
 
 end
