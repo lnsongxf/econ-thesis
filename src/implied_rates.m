@@ -90,7 +90,7 @@ data(2).max = max(FFR_real_t_scaled);
 
 % compute implied rates and plot
 R_t_scaled = compute_implied_rate(A0, A1, Sigma, Y_t, results(2), 0);
-plot_implied_ffr(date, R_t_scaled, FFR_t_scaled, results(2));
+plot_implied_ffr(date, R_t_scaled, FFR_real_t_scaled, results(2));
     
 % summary stats
 results(2).mean = mean(R_t_scaled);
@@ -99,7 +99,7 @@ results(2).min = min(R_t_scaled);
 results(2).max = max(R_t_scaled);
     
 % correlation between implied rate and FFR
-plot_implied_ffr_scatter(I_t_scaled, FFR_t_scaled, results(1));
+plot_implied_ffr_scatter(R_t_scaled, FFR_real_t_scaled, results(2));
 corr_matrix = corrcoef(R_t_scaled, FFR_real_t_scaled);
 results(2).corr = corr_matrix(1, 2);
 
