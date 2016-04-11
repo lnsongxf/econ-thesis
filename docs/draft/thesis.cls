@@ -8,10 +8,14 @@
 \usepackage{amssymb}
 \usepackage{caption}
 \usepackage{color}
+\usepackage{csvsimple}
 \usepackage{float}
 \usepackage[bottom]{footmisc}               % Footnote at page bottom
 \usepackage{graphicx}                       % Graphics support
 \usepackage{hyperref}                       % URL support
+
+\usepackage{subcaption}
+\renewcommand\theContinuedFloat{(\alph{ContinuedFloat})}
 
 % Citations
 \usepackage{bibentry}
@@ -24,7 +28,7 @@
 \renewcommand{\varepsilon}{\oldepsilon}
 
 % Single-space matrices
-\renewcommand*{\arraystretch}{.5}
+\renewcommand*{\arraystretch}{0.625}
 
 % Left and right brackets
 \newcommand{\paren}[1]{\left( #1 \right)}
