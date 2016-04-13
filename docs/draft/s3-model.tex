@@ -16,21 +16,22 @@ To compute the interest rates implied by the Euler equations \eqref{nominal-eule
 \label{collard-utility}
 u(C_t, C_{t-1}, L_t) = \frac{[(C_t/C_{t-1}^\phi)^\nu L_t^{1-\nu}]^{1-\alpha}}{1-\alpha}
 \end{equation}
-where $\alpha$ is the coefficient of relative risk aversion, $\phi$ is the habit persistence parameter, and $\nu$ specifies the relative weight of consumption compared to leisure. When $\phi = 0$ (no habit persistence) and $\nu = 1$ (utility is separable in consumption and leisure), \eqref{collard-utility} reduces to the case of CRRA utility:
+where $\alpha$ is the coefficient of relative risk aversion, $\phi$ is the habit persistence parameter, and $\nu$ specifies the relative weight of consumption compared to leisure. When $\phi = 0$ (no habit persistence) and $\nu = 1$ (utility is separable in consumption and leisure), \eqref{collard-utility} reduces to the case of constant relative risk aversion:
 \begin{equation}
 \label{crra-utility}
 u(C_t) = \frac{C_t^{1-\alpha}}{1-\alpha}
 \end{equation}
-We'll derive an expression for the implied interest rate in terms of conditional expectations and variances for the CRRA case only and leave the more general case to \cite{collard11}. We denote logs of variables using lowercase letters, i.e. $c_t := \log C_t$ and $\pi_t := \log \Pi_t$ (approximately net inflation). From \eqref{nominal-euler}, the nominal interest rate under CRRA preferences is given by:
-\begin{align*}
+We'll derive an expression for the implied interest rate in terms of conditional expectations and variances for the CRRA case only and leave the more general case to Collard and Dellas. We denote logs of variables using lowercase letters, i.e. $c_t := \log C_t$ and $\pi_t := \log \Pi_t$ (approximately net inflation). From \eqref{nominal-euler}, the nominal interest rate under CRRA preferences is given by:
+\begin{align}
+\label{nominal-euler-crra}
 \frac{1}{1 + i_t} &= \E_t \bracket{ \paren{\frac{C_{t+1}}{C_t}}^{-\alpha} \Pi_{t+1}^{-1} } \\
-  &= \beta \E_t \exp \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } \\
-  &= \beta \exp \paren{ \E_t \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } + \frac{1}{2} \Var_t \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } } \\
-  &= \beta \exp \paren{ -\alpha \bracket{ \E_t c_{t+1} - c_t } - \E_t \pi_{t+1}  + \frac{\alpha^2}{2} \Var_t c_{t+1} + \frac{1}{2} \Var_t \pi_{t+1} + \Cov_t(c_{t+1}, \pi_{t+1}) }
-\end{align*}
+  &= \beta \E_t \exp \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } \nonumber \\
+  &= \beta \exp \paren{ \E_t \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } + \frac{1}{2} \Var_t \bracket{ -\alpha(c_{t+1} - c_t) - \pi_{t+1} } } \nonumber \\
+  &= \beta \exp \paren{ -\alpha \bracket{ \E_t c_{t+1} - c_t } - \E_t \pi_{t+1}  + \frac{\alpha^2}{2} \Var_t c_{t+1} + \frac{1}{2} \Var_t \pi_{t+1} + \Cov_t(c_{t+1}, \pi_{t+1}) } \nonumber
+\end{align}
 where the third equality follows from our assumption of conditional lognormality. The expression for the real interest rate is the same, but without the inflation terms: $$\frac{1}{1 + r_t} = \beta \exp \paren{ -\alpha \bracket{ \E_t c_{t+1} - c_t } + \frac{\alpha^2}{2} \Var_t c_{t+1} }$$
 
-From \cite{collard11}, the equivalent expression for the implied nominal rate under the more general preferences \eqref{collard-utility} is $$\frac{1}{1 + i_t} = \beta \frac{ \exp(\chi_{1t}) - \beta \phi \exp(\chi_{2t}) }{ \exp(\chi_{3t}) - \beta \phi \exp(\chi_{4t}) }$$ where
+From Collard and Dellas, the equivalent expression for the implied nominal rate under the more general preferences \eqref{collard-utility} is $$\frac{1}{1 + i_t} = \beta \frac{ \exp(\chi_{1t}) - \beta \phi \exp(\chi_{2t}) }{ \exp(\chi_{3t}) - \beta \phi \exp(\chi_{4t}) }$$ where
 \begin{align*}
 \chi_{1t} &= (\nu(1-\sigma)-1) \E_t c_{t+1} - \phi \nu(1-\sigma) c_t + (1-\nu)(1-\sigma) \E_t l_{t+1} - \E_t \pi_{t+1} \\
   &\qquad + \frac{(\nu(1-\sigma)-1)^2}{2} \Var_t c_{t+1} + \frac{((1-\nu)(1-\sigma))^2}{2} \Var_t l_{t+1} + \frac{\Var_t \pi_{t+1}}{2} \\
