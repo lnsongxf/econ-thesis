@@ -9,11 +9,11 @@
 & Data & SEP & SEP + HP & NSEP & NSEP + HP \\ \hline
 \multicolumn{6}{c}{Real interest rates} \\ \hline
 \csvreader[head to column names, late after line = \\]%
-  {tables/nipa-collard-real.csv}{}%
+  {tables/nipa/collard-real.csv}{}%
   {\stat & \data & \sep & \sephp & \nsep & \nsephp} \hline
 \multicolumn{6}{c}{Nominal interest rates} \\ \hline
 \csvreader[head to column names, late after line = \\]%
-  {tables/nipa-collard-nominal.csv}{}%
+  {tables/nipa/collard-nominal.csv}{}%
   {\stat & \data & \sep & \sephp & \nsep & \nsephp} \hline
 \end{tabular}
 \end{table}
@@ -21,35 +21,35 @@
 \begin{figure}[h]
 \ContinuedFloat*
 \centering
-\captionsetup{singlelinecheck=false, justification=centering}
-\caption{SEP + HP implied vs. observed rates \\ Left: real rates, $\rho = -0.050$. Right: nominal rates, $\rho = 0.142$.}
+\begin{tabular}{cc}
+Real rates ($\rho = -0.050$) & Nominal rates ($\rho = 0.142$) \\
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/real_sep-hp} &
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/nominal_sep-hp}
+\end{tabular}
+\caption{SEP + HP implied vs. observed rates}
 \label{implied-vs-ffr-nipa-others}
-\begin{tabular}{cc}
-\includegraphics[width=0.5\textwidth]{figs/nipa/implied-vs-ffr/real_sep-hp} &
-\includegraphics[width=0.5\textwidth]{figs/nipa/implied-vs-ffr/nominal_sep-hp}
-\end{tabular}
 \end{figure}
 
 \begin{figure}[h]
 \ContinuedFloat
 \centering
-\captionsetup{singlelinecheck=false, justification=centering}
-\caption{NSEP  implied vs. observed rates \\ Left: real rates, $\rho = 0.261$. Right: nominal rates, $\rho = 0.707$.}
 \begin{tabular}{cc}
-\includegraphics[width=0.5\textwidth]{figs/nipa/implied-vs-ffr/real_nsep} &
-\includegraphics[width=0.5\textwidth]{figs/nipa/implied-vs-ffr/nominal_nsep}
+Real rates ($\rho = 0.261$) & Nominal rates ($\rho = 0.707$) \\
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/real_nsep} &
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/nominal_nsep}
 \end{tabular}
+\caption{NSEP  implied vs. observed rates}
 \end{figure}
 
 \begin{figure}[h]
 \ContinuedFloat
 \centering
-\captionsetup{singlelinecheck=false, justification=centering}
-\caption{NSEP + HP implied vs. observed rates \\ Left: real rates, $\rho = 0.033$. Right: nominal rates, $\rho = 0.390$.}
 \begin{tabular}{cc}
-\includegraphics[width=0.5\textwidth]{figs/nipa/implied-vs-ffr/real_nsep-hp} &
-\includegraphics[width=0.5\textwidth]{figs/nipa/implied-vs-ffr/nominal_nsep-hp}
+Real rates ($\rho = 0.033$) & Nominal rates ($\rho = 0.390$) \\
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/real_nsep-hp} &
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/nominal_nsep-hp}
 \end{tabular}
+\caption{NSEP + HP implied vs. observed rates}
 \end{figure}
 
 \begin{table}[h]
