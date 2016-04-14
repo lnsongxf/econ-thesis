@@ -21,6 +21,8 @@ where $\alpha$ is the coefficient of relative risk aversion, $\phi$ is the habit
 \label{crra-utility}
 u(C_t) = \frac{C_t^{1-\alpha}}{1-\alpha}
 \end{equation}
+With CRRA utility, the elasticity of intertemporal substitution is given by $$\mathrm{EIS} = -\frac{d \log(C_{t+1}/C_t)}{d \log (u'(C_{t+1})/u'(C_t))} = -\frac{\log(C_{t+1}/C_t)}{-\alpha \log(C_{t+1}/C_t)} = \frac{1}{\alpha}$$
+
 We'll derive an expression for the implied interest rate in terms of conditional expectations and variances for the CRRA case only and leave the more general case to Collard and Dellas. We denote logs of variables using lowercase letters, i.e. $c_t := \log C_t$ and $\pi_t := \log \Pi_t$ (approximately net inflation). From \eqref{nominal-euler}, the nominal interest rate under CRRA preferences is given by:
 \begin{align}
 \label{nominal-euler-crra}

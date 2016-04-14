@@ -1,4 +1,5 @@
-function [ results, data ] = implied_rates( source, alpha, phi, nu )
+function [ results, data, I_t_scaled, R_t_scaled, FFR_t_scaled, FFR_real_t_scaled ] = ...
+    implied_rates( source, alpha, phi, nu )
 % ARGUMENT  DESCRIPTION
 % source    one of 'nipa', 'nipa-collard', 'cex-bondholders', or 'cex-nonbondholders'
 % alpha     risk aversion coefficient
@@ -111,5 +112,12 @@ FFR_spread_lags_t = [FFR_t_scaled; spread_lags_t];
 model = fitlm(transpose(FFR_spread_lags_t), spread_t);
 results(2).coef_spread = model.Coefficients.Estimate(2); % FFR coefficient
 results(2).se_spread = model.Coefficients.SE(2); % FFR standard error
+
+
+%%
+if alpha == 0.2 && (strcmp(source, 'cex-bondholders') || strcmp(source, 'cex-nonbondholders'))
+    cex_rates = transpose([FFR_t_scaled; FFR_real_t_scaled; I_t_scaled; R_t_scaled]);
+    csvwrite(['data/clean/', source, '-rates.csv'], cex_rates);
+end
 
 end
