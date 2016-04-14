@@ -53,5 +53,5 @@ local fisher_real_se = sqrt(1/(`n_bh' - 3) + 1/(`n_nbh' - 3))
 display(`fisher_real_se')
 
 // regressions
-regress spread ffr_real bondholder i.bondholder#c.ffr_real spread_1 spread_2 spread_3 spread_4
-regress spread_real ffr_real bondholder i.bondholder#c.ffr_real spread_real_1 spread_real_2 spread_real_3 spread_real_4
+regress spread ffr bondholder i.bondholder#c.ffr spread_1 spread_2 spread_3 spread_4
+regress spread_real ffr bondholder i.bondholder#c.ffr spread_real_1 spread_real_2 spread_real_3 spread_real_4

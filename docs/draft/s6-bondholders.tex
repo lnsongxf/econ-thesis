@@ -92,20 +92,20 @@ So much for the correlations between the implied and observed rates. Since I arg
 \label{spread-ffr-bondholder-regression}
 \mathrm{spread}_t = b_0 + b_1 \mathrm{FFR}_t + b_2 \mathrm{bondholder} + b_3 \mathrm{bondholder} \times \mathrm{FFR}_t + \sum_{j=1}^4 a_j \mathrm{spread}_{t-j}
 \end{equation}
-The estimated coefficients and standard errors for the non-lag terms are reported in \autoref{cex-spread-regression}. The FFR coefficients for real spreads are $b_1 = -1.063$ for nonbondholders and $b_1 + b_3 = -0.930$ for bondholders; for nominal spreads they are -0.396 for nonbondholders and -0.398 for nonbondholders. The difference in slopes $b_3$ is not significant for either real or nominal spreads.
+The estimated coefficients and standard errors for the non-lag terms are reported in \autoref{cex-spread-regression}. The FFR coefficients for real spreads are $b_1 = -0.985$ for nonbondholders and $b_1 + b_3 = -0.885$ for bondholders; for nominal spreads they are -1.031 for nonbondholders and -0.862 for nonbondholders. The difference in slopes $b_3$ is not significant for either real or nominal spreads.
 
 \begin{table}[b]
 \centering
-\caption{Response of spread to FFR for bondholders and nonbondholders}
+\caption{Response of spread to nominal FFR for bondholders and nonbondholders}
 \label{cex-spread-regression}
 \begin{tabular}{lccc} \hline
 & FFR & Bondholder & Bondholder $\times$ FFR \\ \hline
 \multicolumn{4}{c}{Real spreads} \\ \hline
-Coef & -1.063  & 0.105   & 0.133 \\
-SE   & (0.144) & (0.408) & (0.157) \\ \hline
+Coef & -0.985  & -0.412  & 0.188 \\
+SE   & (0.235) & (0.814) & (0.222) \\ \hline
 \multicolumn{4}{c}{Nominal spreads} \\ \hline
-Coef & -0.396  & -0.002  & -0.123 \\
-SE   & (0.153) & (0.463) & (0.178) \\ \hline
+Coef & -1.031  & -0.359  & 0.169 \\
+SE   & (0.220) & (0.735) & (0.201) \\ \hline
 \end{tabular}
 \end{table}
 

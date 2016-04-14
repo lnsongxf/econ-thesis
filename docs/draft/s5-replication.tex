@@ -95,7 +95,7 @@ It is clear that the implied and observed rates differ in level. In \autoref{imp
 
 If the model implied interest rates differed from the observed rates only by a constant factor, this discrepancy would be less worrisome. In practice --- for example, in larger macroeconomic models where the interest rate is assumed to be given by the Euler equation --- it would be easy to adjust for this constant ``measurement error''. However, as I show, and as CCD also find, this spread is in fact not constant, but correlated with the stance of monetary policy. In this aspect, my results strongly resemble those of CCD, as well as what one might expect from visually inspecting the plot of observed and implied rates.
 
-I define the spread as the model implied interest rate less the observed rate. For each of the four utility specifications, I regress the spread on the effective federal funds rate, as well as on four lags of itself. That is, I estimate using least squares the linear model
+I define the spread as the model implied interest rate less the observed rate. For each of the four utility specifications, I regress the spread on the effective (nominal) federal funds rate, as well as on four lags of itself. That is, I estimate using least squares the linear model
 \begin{equation}
 \label{spread-ffr-regression}
 \mathrm{spread}_t = b_0 + b_1 \mathrm{FFR}_t + \sum_{j=1}^4 a_j \mathrm{spread}_{t-j}
@@ -104,7 +104,7 @@ where all rates are annualized and given in units of percentage points. The esti
 
 \begin{table}[t]
 \centering
-\caption{Response of spread to federal funds rate}
+\caption{Response of spread to nominal FFR}
 \label{nipa-spread}
 \begin{tabular}{lcccc} \hline
 & SEP & SEP + HP & NSEP & NSEP + HP \\ \hline
