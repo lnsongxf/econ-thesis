@@ -47,11 +47,23 @@ Either all observations belonging to a particular household are labeled bondhold
 
 \textit{Output less consumption:} Defined as before-tax income (\texttt{FINCBTAX}) minus consumption (defined above).
 
-Below are summary statistics for bondholders and nonbondholders using the variables defined above. Since bondholders represent a fairly small fraction of the total sample, I include all bondholder observations in the bondholder aggregate but take a random sample of the nonbondholder observations in order to equalize sample size.
+Summary statistics for bondholders and nonbondholders using the variables defined above are reported in \autoref{bondholder-nonbondholder-summary}. Since bondholders represent a fairly small fraction of the total sample, I include all bondholder observations in the bondholder aggregate but take a random sample of the nonbondholder observations in order to equalize sample size.
 
-\begin{center}
-\textbf{\color{red}{SUMMARY STATS TK}}
-\end{center}
+\begin{table}[t]
+\centering
+\caption{Summary statistics for bondholders and nonbondholders (Per capita, 2009 dollars)}
+\label{bondholder-nonbondholder-summary}
+\begin{tabular}{lcccc} \hline
+& \multicolumn{2}{c}{Bondholders} & \multicolumn{2}{c}{Nonbondholders} \\
+& Mean & SD & Mean & SD \\ \hline
+Consumption             & 2,326  & 176   & 1,624  & 89.99 \\
+Hours worked            & 41.10  & 1.19  & 40.55  & 0.72 \\
+Disposable income       & 76,789 & 5,541 & 51,901 & 3,958 \\
+Output less consumption & 80,951 & 5,154 & 53,003 & 3,655 \\ \hline
+Observations            & \multicolumn{2}{c}{55,847} & \multicolumn{2}{c}{336,344} \\
+Households              & \multicolumn{2}{c}{16,959} & \multicolumn{2}{c}{125,895} \\ \hline
+\end{tabular}
+\end{table}
 
 Consumption, disposable income, and output less consumption are each deflated by the unadjusted Consumer Price Index for nondurables for urban consumers (\texttt{CUUR0000SAN} in FRED), following Vissing-Jorgensen, rescaled to 2009 dollars to correspond with the aggregate-level data. The expenditure categories included in consumption were chosen to allow for the possibility of deflating each category by its own CPI (for example, \texttt{CPIFABNS} from FRED for food and beverages). However, the result of doing so was found to differ only negligibly from using a single CPI.
 

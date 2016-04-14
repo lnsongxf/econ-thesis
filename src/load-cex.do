@@ -3,10 +3,10 @@ set more off
 set matsize 11000
 
 // settings
-local plots      = 1
+local plots      = 0
 local ljung_box  = 0
 local varsoc     = 0
-local reestimate = 1
+local reestimate = 0
 local source     = "`1'"
 
 local p = 4 // number of lags
@@ -30,6 +30,11 @@ by cuid: replace bondholder = 1 if bondholder[_N] == 1
 // drop invalid data as in Heathcote et al (2010)
 drop if respstat == "2"
 drop respstat
+
+// summary stats
+tabulate bondholder, missing
+bysort cuid: generate unique_cuid = _n == 1
+tabulate unique_cuid bondholder, missing
 
 // generate reference months and years
 destring qintrvyr, replace
@@ -82,29 +87,16 @@ drop size_vals
 reshape long year month exp, i(cuid qintrvyr qintrvmo)
 drop _j qintrvyr qintrvmo
 
-// summary stats
-tabulate bondholder, missing
-bysort cuid: generate unique_cuid = _n == 1
-tabulate unique_cuid bondholder, missing
-count if bondholder
-local sample_size = r(N)
-
 if "`source'" == "cex-bondholders" {
 	keep if bondholder
-	
-	summarize exp
-	summarize fincatax
-	summarize hrs
 }
 else if "`source'" == "cex-nonbondholders" {
+	count if bondholder
+	local sample_size = r(N)
 	keep if !bondholder
 	set seed 0
 	sample `sample_size', count
-	
 	tabulate unique_cuid
-	summarize exp
-	summarize fincatax
-	summarize hrs
 }
 else {
 	display as error "Source was not CEX bondholders or nonbondholders"
@@ -138,11 +130,18 @@ rename fincatax rdi
 generate ymc = fincbtax - exp_pc
 
 // label variables
+label variable exp_pc "Per-capita real consumption"
 label variable hrs "Average hours worked per week"
 label variable rdi "Per-capita real disposable income"
-label variable exp_pc "Per-capita real consumption"
 label variable ymc "Per-capita real output less consumption"
 
+// summary stats
+summarize exp_pc
+summarize hrs
+summarize rdi
+summarize ymc
+
+/*
 // generate VAR variables
 egen mean_hrs                = mean(hrs)
 generate scaled_labor_pct    = (1/3) * hrs / mean_hrs
