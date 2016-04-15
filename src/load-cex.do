@@ -141,7 +141,6 @@ summarize hrs
 summarize rdi
 summarize ymc
 
-/*
 // generate VAR variables
 egen mean_hrs                = mean(hrs)
 generate scaled_labor_pct    = (1/3) * hrs / mean_hrs
