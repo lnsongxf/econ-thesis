@@ -1,5 +1,5 @@
 \section{Model}
-We start with the standard household problem from the neoclassical growth model. In period $t$, the representative consumer has preferences $$U_t = \E_t \sum_{s=t}^\infty \beta^{s-t} u(C_s, C_{s-1}, L_s)$$ where $\beta$ is her discount rate, $C_s$ and $C_{s-1}$ are real consumption today and yesterday, and $L_s$ is fraction of leisure hours. Each period, she receives labor income with nominal wage $W_s$ and chooses consumption and nominal holdings $B_s$ of a risk-free one-period bond. The price of the consumption good is $P_s$. This gives the following period budget constraint in nominal units: $$P_s C_s + (1 + i_{s-1})B_{s-1} \leq W_s(1 - L_s) + B_s$$
+I start with the standard household problem from the neoclassical growth model. In period $t$, the representative consumer has preferences $$U_t = \E_t \sum_{s=t}^\infty \beta^{s-t} u(C_s, C_{s-1}, L_s)$$ where $\beta$ is her discount rate, $C_s$ and $C_{s-1}$ are real consumption today and yesterday, and $L_s$ is fraction of leisure hours. Each period, she receives labor income with nominal wage $W_s$ and chooses consumption and nominal holdings $B_s$ of a risk-free one-period bond. The price of the consumption good is $P_s$. This gives the following period budget constraint in nominal units: $$P_s C_s + (1 + i_{s-1})B_{s-1} \leq W_s(1 - L_s) + B_s$$
 Taking first-order conditions gives the equilibrium nominal interest rate by
 \begin{equation}
 \label{nominal-euler}
@@ -11,7 +11,7 @@ In real units, the period budget constraint is $$C_s + (1 + r_{s-1}) \frac{B_{s-
 \frac{1}{1 + r_t} = \beta \E_t \bracket{ \frac{\d U_t / \d C_{t+1}}{\d U_t / \d C_t} }
 \end{equation}
 
-To compute the interest rates implied by the Euler equations \eqref{nominal-euler} and \eqref{real-euler} requires a few assumptions. We assume that real consumption $C_t$ and gross inflation $\Pi_t$ are conditionally lognormal. We use the functional form for utility used by \cite{collard11}:
+To compute the interest rates implied by the Euler equations \eqref{nominal-euler} and \eqref{real-euler} requires a few assumptions. I assume that real consumption $C_t$ and gross inflation $\Pi_t$ are conditionally lognormal. I use the functional form for utility used by \cite{collard11}:
 \begin{equation}
 \label{collard-utility}
 u(C_t, C_{t-1}, L_t) = \frac{[(C_t/C_{t-1}^\phi)^\nu L_t^{1-\nu}]^{1-\alpha}}{1-\alpha}
@@ -23,7 +23,7 @@ u(C_t) = \frac{C_t^{1-\alpha}}{1-\alpha}
 \end{equation}
 With CRRA utility, the elasticity of intertemporal substitution is given by $$\mathrm{EIS} = -\frac{d \log(C_{t+1}/C_t)}{d \log (u'(C_{t+1})/u'(C_t))} = -\frac{\log(C_{t+1}/C_t)}{-\alpha \log(C_{t+1}/C_t)} = \frac{1}{\alpha}$$
 
-We'll derive an expression for the implied interest rate in terms of conditional expectations and variances for the CRRA case only and leave the more general case to Collard and Dellas. We denote logs of variables using lowercase letters, i.e. $c_t := \log C_t$ and $\pi_t := \log \Pi_t$ (approximately net inflation). From \eqref{nominal-euler}, the nominal interest rate under CRRA preferences is given by:
+Below, I derive an expression for the implied interest rate in terms of conditional expectations and variances for the CRRA case only, leaving the more general case to Collard and Dellas. Logs of variables are denoting using lowercase letters, i.e. $c_t := \log C_t$ and $\pi_t := \log \Pi_t$ (approximately net inflation). From \eqref{nominal-euler}, the nominal interest rate under CRRA preferences is given by:
 \begin{align}
 \label{nominal-euler-crra}
 \frac{1}{1 + i_t} &= \E_t \bracket{ \paren{\frac{C_{t+1}}{C_t}}^{-\alpha} \Pi_{t+1}^{-1} } \\
@@ -49,7 +49,7 @@ From Collard and Dellas, the equivalent expression for the implied nominal rate 
   &\qquad + \frac{((1-\nu)(1-\sigma))^2}{2} \Var_t l_{t+1} + \nu(1-\nu)(1-\sigma)^2 \Cov_t(c_{t+1}, l_{t+1})
 \end{align*}
 
-Following \cite{canzoneri07}, to derive estimates for these conditional moments, we assume that the dynamics of consumption, inflation, and labor can be modeled as the VAR(4) process (written below in companion form)
+Following \cite{canzoneri07}, to derive estimates for these conditional moments, I assume that the dynamics of consumption, inflation, and labor can be modeled as the VAR(4) process (written below in companion form)
 \begin{equation}
 \label{var-companion}
 Y_{t+1} = A_0 + A_1 Y_t + u_t,
@@ -60,9 +60,9 @@ where
 Y_t &= [y_t, y_{t-1}, y_{t-2}, y_{t-3}]' \\
 y_t &= [c_t, \pi_t, l_t, rdi_t, ymc_t, ffr_t, cci_t]'
 \end{align*}
-The components of $y_t$ are log of real consumption, log of gross inflation, leisure fraction (which we'll define more explicitly later), log of real disposable income, log of output less consumption, log of the gross effective federal funds rate, and log of the Thomson Reuters Equal Weight Continuous Commodity Index\footnote{The CCI is the ``old'' Thomson Reuters/Jeffries CRB Index, calculated using the same methodology as the CRB Index before it underwent weighting and rebalance changes in 1995.}.
+The components of $y_t$ are log of real consumption, log of gross inflation, leisure fraction (which I define more explicitly later), log of real disposable income, log of output less consumption, log of the gross effective federal funds rate, and log of the Thomson Reuters Equal Weight Continuous Commodity Index\footnote{The CCI is the ``old'' Thomson Reuters/Jeffries CRB Index, calculated using the same methodology as the CRB Index before it underwent weighting and rebalance changes in 1995.}.
 
-After estimating $A_0$, $A_1$, and $\Sigma$, we can compute:
+After estimating $A_0$, $A_1$, and $\Sigma$, I compute:
 
 \begin{minipage}[c]{0.5\textwidth}
 \begin{align*}

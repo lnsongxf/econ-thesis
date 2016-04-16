@@ -6,14 +6,16 @@
 % Packages
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{caption}
 \usepackage{color}
 \usepackage{csvsimple}
-\usepackage{float}
 \usepackage[bottom]{footmisc}               % Footnote at page bottom
 \usepackage{graphicx}                       % Graphics support
 \usepackage{hyperref}                       % URL support
 
+
+% Floats
+\usepackage{caption}
+\usepackage{float}
 \usepackage{subcaption}
 \renewcommand\theContinuedFloat{(\alph{ContinuedFloat})}
 
