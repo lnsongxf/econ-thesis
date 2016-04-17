@@ -18,7 +18,7 @@ NIPA & CEX Bondholders & CEX Nonbondholders \\
 \label{log_consumption_series}
 \end{figure}
 
-I set the coefficient of relative risk aversion $\alpha$ to be 0.2, in contrast to the previous section, as well as both \cite{canzoneri07} and \cite{collard11}, where $\alpha = 2$. The consumption, income, and leisure paths that I aggregate from household-level CEX data are much more volatile than the nationwide aggregates from NIPA that I use in the replication. In \autoref{log_consumption_series}, I compare the log of real consumption $c_t$ generated from NIPA to those of CEX bondholders and nonbondholders. The paths of the other series (leisure fraction, log of real disposable income, and log of output less consumption) are similarly more volatile when aggregated from household-level data.
+In the previous section, following \cite{canzoneri07} and \cite{collard11}, I had $\alpha = 2$. Here, in contrast, I set the coefficient of relative risk aversion $\alpha$ to be 0.2. The consumption, income, and leisure paths that I aggregate from household-level CEX data are much more volatile than the nationwide aggregates from NIPA that I use in the replication. In \autoref{log_consumption_series}, I compare the log of real consumption $c_t$ generated from NIPA to those of CEX bondholders and nonbondholders. The paths of the other series (leisure fraction, log of real disposable income, and log of output less consumption) are similarly more volatile when aggregated from household-level data.
 
 \begin{table}[b!]
 \centering
@@ -60,6 +60,10 @@ Nominal interest rates & 0.193 & 0.028 & 0.168 & 0.180 \\ \hline
 To test whether the correlation is significantly higher for bondholders than for nonbondholders, I use Fisher's transformation. First, I transform each correlation $\rho$ by $$\rho' = \frac{1}{2} \log \paren{\frac{1+\rho}{1-\rho}}$$
 Then the difference between the transformed correlations, $\rho_{_{BH}}' - \rho_{_{NBH}}'$, is normally distributed with standard error $\sqrt{\frac{1}{n_{_{BH}} - 3} + \frac{1}{n_{_{NBH}} - 3}}$. I report these estimates in \autoref{cex-correlation-test}. The difference between correlations for bondholders and nonbondholders is not significant for both real and nominal interest rates.
 
+One explanation for the lack of significance may be the ``fuzziness'' inherent in determining bondholder status. As I discussed in \autoref{cex-data} and as \cite{vissing02} also addresses, I am limited by the questions asked of CEX households. The households that I classify as bondholders may, for example, erroneously include stockholders who are not also bondholders, while excluding households that hold bonds through their pension plans. This problem may be resolved using data that makes a clearer distinction between bondholders and nonbondholders.
+
+Comparing the interest rate paths qualitatively in \autoref{implied-vs-ffr-cex-real} and \autoref{implied-vs-ffr-cex-nominal} shows how noisy the implied rates are in this specification. The risk aversion coefficient $\alpha = 0.2$ implies an elasticity of intertemporal substitution of $\frac{1}{\alpha} = 5$, which is extremely high and well outside the range of estimated elasticities. \cite{guvenen06} cites elasticity values in the literature in the range of 1 for stockholders and 0.1 for nonstockholders. This suggests that the volatility of the consumption paths aggregated from the CEX is mostly the result of the small sample size and is not necessarily representative of the actual variation in households' consumption choices.
+
 \begin{figure}[h!]
 \ContinuedFloat*
 \centering
@@ -84,8 +88,6 @@ Bondholders ($\rho = 0.193$) & Nonbondholders ($\rho = 0.028$) \\
 \label{implied-vs-ffr-cex-nominal}
 \end{figure}
 
-Comparing the interest rate paths qualitatively in \autoref{implied-vs-ffr-cex-real} and \autoref{implied-vs-ffr-cex-nominal} shows how noisy the implied rates are in this specification. The risk aversion coefficient $\alpha = 0.2$ implies an elasticity of intertemporal substitution of $\frac{1}{\alpha} = 5$, which is extremely high and well outside the range of estimated elasticities. \cite{guvenen06} cites elasticity values in the literature in the range of 1 for stockholders and 0.1 for nonstockholders. This suggests that the volatility of the consumption paths aggregated from the CEX is mostly the result of the small sample size and is not necessarily representative of the actual variation in households' consumption choices.
-
 
 
 \subsection{Response of spread to monetary policy}
@@ -96,7 +98,7 @@ So much for the correlations between the implied and observed rates. Since I arg
 \end{equation}
 The estimated coefficients and standard errors for the non-lag terms are reported in \autoref{cex-spread-regression}. The FFR coefficients for real spreads are $b_1 = -0.985$ for nonbondholders and $b_1 + b_3 = -0.885$ for bondholders; for nominal spreads they are -1.031 for nonbondholders and -0.862 for nonbondholders. The difference in slopes $b_3$ is not significant for either real or nominal spreads.
 
-\begin{table}[b]
+\begin{table}[h]
 \centering
 \caption{Response of spread to nominal FFR for bondholders and nonbondholders}
 \label{cex-spread-regression}
