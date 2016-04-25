@@ -1,18 +1,39 @@
 \section{Aggregate-Level Replication}
-In this section, I compute the nominal and real interest rates implied by the Euler equation using the VAR estimates from the full sample (1960:I to 2015:II) of the aggregate series described in \autoref{aggregate-data}. As in \cite{collard11}, I take the discount rate $\beta$ to be 0.9926 (so that households discount at an annual rate of 3 percent) and the coefficient of risk aversion $\alpha$ to be 2. I look at four specifications of utility:
+In this section, I compute the nominal and real interest rates implied by the Euler equation using the VAR estimates from the full sample (1960:I to 2015:II) of the aggregate series described in \autoref{aggregate-data}. As in \cite{collard11}, I take the discount rate $\beta$ to be 0.9926 (so that households discount at an annual rate of 3 percent) and the coefficient of risk aversion $\alpha$ to be 2. I look at four specifications of Collard and Dellas's utility model \eqref{collard-utility}:
+$$u(C_t, C_{t-1}, l_t) = \frac{[(C_t/C_{t-1}^\phi)^\nu l_t^{1-\nu}]^{1-\alpha}}{1-\alpha}$$
+where $\phi$ is the habit persistence parameter and $\nu$ is the weight of consumption relative to leisure.
 
-\textit{SEP:} These are standard CRRA preferences \eqref{crra-utility}, in which there is no habit formation ($\phi = 0$) and consumption and leisure are assumed to be additively separable ($\nu = 1$).
+\begin{table}[H]
+\centering
+\caption{Utility specifications}
+\begin{tabular}{cccl} \hline
+Spec      & $\phi$ & $\nu$  & Description \\ \hline
+SEP       & 0      & 1      & Constant relative risk aversion (CRRA) \\
+SEP + HP  & 0.8    & 1      & Habit formation \\
+NSEP      & 0      & 0.34   & Nonseparable in consumption and leisure \\
+NSEP + HP & 0.8    & 0.34   & Habit formation + nonseparable in consumption and leisure\\ \hline
+\end{tabular}
+\end{table}
 
-\textit{SEP + HP:} Setting $\phi = 0.8$ gives habit formation as in \cite{fuhrer00}. Now period utility depends on the ratio of current to previous period consumption, while leisure is still assumed to be separable ($\nu = 1$): $$u(C_t, C_{t-1}) = \frac{(C_t/C_{t-1}^\phi)^{1-\alpha}}{1-\alpha}$$
+In \autoref{implied-vs-ffr-nipa-sep}, I show the paths of the observed and implied rates for the benchmark SEP specification. Plots of the other three utility specifications are found beginning with \autoref{implied-vs-ffr-nipa-others} in the appendix. In the SEP case, as in the others, both the real and nominal implied interest rates appear to move in the opposite direction from the respective observed rates. These implied rate paths are generally consistent with those computed by both CCD and Collard and Dellas. Interestingly, though in my results the models with habit formation (SEP + HP and NSEP + HP) do generate the most volatile implied rate paths, the magnitudes of the standard deviations are not as large as those reported by both previous papers.
 
-\textit{NSEP:} On the other hand, nonseparability in consumption and leisure is introduced by letting $\nu = 0.34$, which implies a work share of 30 percent in the absence of habit formation ($\phi = 0$): $$u(C_t, l_t) = \frac{(C_t^\nu l_t^{1-\nu})^{1-\alpha}}{1-\alpha}$$
-
-\textit{NSEP + HP:} Finally, letting both $\phi = 0.8$ and $\nu = 0.34$ gives the full Collard and Dellas model in \eqref{collard-utility} with both habit formation and nonseparability in consumption and leisure.
+\begin{figure}[t]
+\centering
+\begin{tabular}{cc} \\
+Real rates ($\rho = 0.197$) & Nominal rates ($\rho = 0.520$) \\
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/real_sep} &
+\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/nominal_sep}
+\end{tabular}
+\caption{SEP implied vs. observed rates}
+\label{implied-vs-ffr-nipa-sep}
+\end{figure}
 
 
 
 \subsection{Correlation of implied and observed rates}
-Summary statistics for the implied rates under each specification are reported below in \autoref{implied-vs-ffr-nipa}, as well as the correlation between each implied rate and the effective federal funds rate. On the whole, the means and standard deviations agree generally with those found by CCD and Collard and Dellas. Interestingly, though in my results the models with habit formation (SEP + HP and NSEP + HP) do generate the most volatile implied rate paths, the magnitudes of the standard deviations are not as large as those reported by both previous papers.
+Summary statistics for the implied rates under each specification are reported below in \autoref{implied-vs-ffr-nipa}, as well as the correlation between each implied rate and the effective federal funds rate.
+
+The main result that stands out is the presence of strong positive correlations overall, but especially for nominal rates in the specifications without habit formation. Notably, the correlation between the nominal rate implied by CRRA preferences (SEP) and the historical nominal effective federal funds rate is 0.52, while adding nonseparability in leisure (NSEP) increases this correlation to 0.707. In the utility models with habit formation (SEP + HP and NSEP + HP), the correlation is less positive for nominal rates and essentially zero for real rates. These findings seem very much at odds with the qualitative appearance of the observed and implied rates moving in opposite directions.
 
 \begin{table}[t]
 \centering
@@ -30,8 +51,6 @@ Summary statistics for the implied rates under each specification are reported b
   {\stat & \data & \sep & \sephp & \nsep & \nsephp} \hline
 \end{tabular}
 \end{table}
-
-The main result that stands out is the presence of strong positive correlations overall, but especially for nominal rates in the specifications without habit formation. Notably, the correlation between the nominal rate implied by CRRA preferences (SEP) and the historical nominal effective federal funds rate is 0.52, while adding nonseparability in leisure (NSEP) increases this correlation to 0.707. In the utility models with habit formation (SEP + HP and NSEP + HP), the correlation is less positive for nominal rates and essentially zero for real rates.
 
 These strong positive correlations are noticeably higher than the still-positive correlations found by Collard and Dellas, to say nothing of the strongly negative values found by \cite{canzoneri07}. As a check, I reestimate the VAR and recompute the implied rates and correlations using only the time period spanned by Collard and Dellas, stopping at 2006:IV instead of 2015:II. The correlations for nominal rates from this restricted sample more closely resemble their results, though the ones for real rates are still rather different. I summarize the restricted sample results in \autoref{implied-vs-ffr-nipa-collard} in the appendix. In \autoref{correlation-comparison-nipa}, I compare the full and restricted sample correlations to those found in the other two papers. Note that the CCD paper examines several utility specifications, including CRRA (SEP) and Fuhrer habit preferences (SEP + HP), but does not include analysis of nonseparability in leisure.
 
@@ -71,20 +90,7 @@ Full sample ($\rho = 0.520$) & Restricted sample ($\rho = 0.255$) \\
 
 Even within the same time span, comparing the restricted sample correlations to those of Collard and Dellas highlights the fragility of these results with respect to small changes in methodology. I follow their specifications as closely as possible, except where it is not possible or not completely clear what they did. As mentioned in the previous section, due to lack of availability of data, I generate aggregate real consumption from the chain quantity indices scaled by the 2009 nominal consumption, while they use real consumption directly. I also estimate the VARs using log of gross quarterly inflation and interest rates $\pi_t$ and $ffr_t$, while it is possible that Collard and Dellas may have used annualized rates and/or scaled them to units of percentage points. Other possible differences include our choices of base year (2009 in my analysis, versus 2000) and whether we take the natural log of real dollars (as I do) or billions of real dollars.
 
-All of this is to say that the correlation between the implied and observed rates is probably not the most reliable metric by which we should judge the fit of the consumption Euler equation to the data --- even though it's arguably the focus of both of these previous papers. This is particularly evident upon qualitatively examining the paths of the observed and implied rates, which are shown for the SEP case in \autoref{implied-vs-ffr-nipa-sep} below. (Plots of the other three utility specifications are found beginning with \autoref{implied-vs-ffr-nipa-others} in the appendix.)
-
-\begin{figure}[h]
-\centering
-\begin{tabular}{cc} \\
-Real rates ($\rho = 0.197$) & Nominal rates ($\rho = 0.520$) \\
-\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/real_sep} &
-\includegraphics[width=0.49\textwidth]{figs/nipa/implied-vs-ffr/nominal_sep}
-\end{tabular}
-\caption{SEP implied vs. observed rates}
-\label{implied-vs-ffr-nipa-sep}
-\end{figure}
-
-Despite the positive correlations of 0.197 and 0.520 respectively, both the real and nominal implied rates persist in moving in the opposite direction from the respective ex post rates. The paths of the implied rates look very similar to those found by CCD, who find them to be negatively correlated with the observed rates. A more consistent metric of fit is the correlation of the spread with the stance of monetary policy, which I discuss next.
+All of this is to say that the correlation between the implied and observed rates is probably not the most reliable metric by which we should judge the fit of the consumption Euler equation to the data --- even though it's arguably the focus of both of these previous papers. A more consistent metric of fit is the correlation of the spread with the stance of monetary policy, which I discuss next.
 
 
 

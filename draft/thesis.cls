@@ -2,6 +2,7 @@
 \LoadClass[11pt]{article}
 \usepackage[letterpaper, margin=1in, includefoot]{geometry}
 \linespread{2}
+\addtolength{\footnotesep}{\baselineskip}
 
 % Packages
 \usepackage{amsmath}
@@ -16,8 +17,16 @@
 % Floats
 \usepackage{caption}
 \usepackage{float}
+\usepackage[section]{placeins}
 \usepackage{subcaption}
 \renewcommand\theContinuedFloat{(\alph{ContinuedFloat})}
+\makeatletter
+\AtBeginDocument{%
+  \expandafter\renewcommand\expandafter\subsection\expandafter{%
+    \expandafter\@fb@secFB\subsection
+  }%
+}
+\makeatother
 
 % Citations
 \usepackage{bibentry}

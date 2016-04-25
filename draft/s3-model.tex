@@ -60,7 +60,7 @@ where
 Y_t &= [y_t, y_{t-1}, y_{t-2}, y_{t-3}]' \\
 y_t &= [c_t, \pi_t, l_t, rdi_t, ymc_t, ffr_t, cci_t]'
 \end{align*}
-The components of $y_t$ are log of real consumption, log of gross inflation, leisure fraction (which I define more explicitly later), log of real disposable income, log of output less consumption, log of the gross effective federal funds rate, and log of the Thomson Reuters Equal Weight Continuous Commodity Index\footnote{The CCI is the ``old'' Thomson Reuters/Jeffries CRB Index, calculated using the same methodology as the CRB Index before it underwent weighting and rebalance changes in 1995.}.
+The components of $y_t$ are log of real consumption, log of gross inflation, leisure fraction (which I define more explicitly later), log of real disposable income, log of output less consumption, log of the gross effective federal funds rate, and log of the Thomson Reuters Equal Weight Continuous Commodity Index\footnote{The CCI is the ``old'' Thomson Reuters/Jeffries CRB Index, calculated using the same methodology as the CRB Index before it underwent weighting and rebalance changes in 1995.}\textsuperscript{,}\footnote{Since the conditional moments for only consumption, inflation, and leisure are needed to construct the implied interest rate, I also tried a version of my analysis where I estimated the VAR and computed implied rates using only $y = [c_t, \pi_t, l_t]'$. The results were very similar to what I found using the larger model, so in order to maintain consistency with CCD and Collard and Dellas, I proceed using all seven endogenous variables.}
 
 After estimating $A_0$, $A_1$, and $\Sigma$, I compute:
 
